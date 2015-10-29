@@ -13,8 +13,7 @@ module.exports = function( data, callback, main, socket ){
 	var broccoli = new Broccoli({
 		'paths_module_template': {
 			'PlainHTMLElements': '../PlainHTMLElements/',
-			'testMod1': '../modules1/',
-			'testMod2': '../modules2/'
+			'testMod1': '../modules1/'
 		} ,
 		'documentRoot': path.resolve(__dirname, '../../../testdata/htdocs/')+'/',
 		'pathHtml': '/editpage/index.html',

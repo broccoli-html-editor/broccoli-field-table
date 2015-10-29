@@ -9,8 +9,7 @@ function makeDefaultBroccoli(callback){
 	var broccoli = new Broccoli({
 		'paths_module_template':{
 			'PlainHTMLElements': '../PlainHTMLElements/',
-			'testMod1': '../modules1/',
-			'testMod2': '../modules2/'
+			'testMod1': '../modules1/'
 		},
 		'documentRoot': path.resolve(__dirname, 'testdata/htdocs/')+'/',
 		'pathHtml': '/test1/test1.html',
@@ -38,7 +37,6 @@ describe('インスタンス初期化', function() {
 
 			assert.equal(typeof(broccoli.paths_module_template), typeof({}));
 			assert.equal(broccoli.paths_module_template.testMod1, path.resolve(__dirname,'testdata/modules1/')+'/');
-			assert.equal(broccoli.paths_module_template.testMod2, path.resolve(__dirname,'testdata/modules2/')+'/');
 
 			done();
 		} );
