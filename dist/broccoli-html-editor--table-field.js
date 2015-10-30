@@ -10,18 +10,18 @@ module.exports = function(broccoli){
 	function parseResource( realpathSelected ){
 		var tmpResInfo = {};
 		var realpath = JSON.parse( JSON.stringify( realpathSelected ) );
-		tmpResInfo.ext = px.utils.getExtension( realpath ).toLowerCase();
-		switch( tmpResInfo.ext ){
-			case 'csv':                          tmpResInfo.type = 'text/csv';  break;
-			case 'doc':                          tmpResInfo.type = 'application/msword';  break;
-			case 'xls':                          tmpResInfo.type = 'application/vnd.ms-excel';  break;
-			case 'ppt':                          tmpResInfo.type = 'application/vnd.ms-powerpoint';  break;
-			case 'docx':                         tmpResInfo.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';  break;
-			case 'xlsx':                         tmpResInfo.type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';  break;
-			case 'pptx':                         tmpResInfo.type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';  break;
-			default:
-				tmpResInfo.type = 'text/csv'; break;
-		}
+		// tmpResInfo.ext = px.utils.getExtension( realpath ).toLowerCase();
+		// switch( tmpResInfo.ext ){
+		// 	case 'csv':                          tmpResInfo.type = 'text/csv';  break;
+		// 	case 'doc':                          tmpResInfo.type = 'application/msword';  break;
+		// 	case 'xls':                          tmpResInfo.type = 'application/vnd.ms-excel';  break;
+		// 	case 'ppt':                          tmpResInfo.type = 'application/vnd.ms-powerpoint';  break;
+		// 	case 'docx':                         tmpResInfo.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';  break;
+		// 	case 'xlsx':                         tmpResInfo.type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';  break;
+		// 	case 'pptx':                         tmpResInfo.type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';  break;
+		// 	default:
+		// 		tmpResInfo.type = 'text/csv'; break;
+		// }
 
 		return tmpResInfo;
 	}
@@ -234,12 +234,12 @@ module.exports = function(broccoli){
 		}
 
 		var realpathSelected = $dom.find('input[name='+mod.name+']').val();
-		if( px.utils.isFile(realpathSelected) ){
-			var tmpResInfo = parseResource( realpathSelected );
-			_resMgr.updateResource( data.resKey, tmpResInfo, function(){} );
-		}else if( data.resKey ){
-			_resMgr.resetBase64FromBin( data.resKey );
-		}
+		// if( px.utils.isFile(realpathSelected) ){
+		// 	var tmpResInfo = parseResource( realpathSelected );
+		// 	_resMgr.updateResource( data.resKey, tmpResInfo, function(){} );
+		// }else if( data.resKey ){
+		// 	_resMgr.resetBase64FromBin( data.resKey );
+		// }
 		// var res = _resMgr.getResource( data.resKey );
 		data.header_row = $dom.find('input[name="'+mod.name+':header_row"]').val();
 		data.header_col = $dom.find('input[name="'+mod.name+':header_col"]').val();
@@ -251,25 +251,25 @@ module.exports = function(broccoli){
 			// リソースファイルの設置は resourceMgr が行っている。
 			// isPrivateMaterial が true の場合、公開領域への設置は行われない。
 
-		var realpath = _resMgr.getResourceOriginalRealpath( data.resKey );
-		if( !px.utils.isFile(realpath) ){
-			realpath = res.realpath;
-		}
-		if( !px.utils.isFile(realpath) ){
-			realpath = realpathSelected;
-		}
-
-		var cmd = px.cmd('php');
-		cmd += ' '+px.path.resolve( _pj.get('path') + '/' + _pj.get('entry_script') );
-		cmd += ' "/?PX=px2dthelper.convert_table_excel2html';
-		cmd += '&path=' + px.php.urlencode(realpath);
-		cmd += '&header_row=' + px.php.urlencode( data.header_row );
-		cmd += '&header_col=' + px.php.urlencode( data.header_col );
-		cmd += '&cell_renderer=' + px.php.urlencode( data.cell_renderer );
-		cmd += '&renderer=' + px.php.urlencode( data.renderer );
-		cmd += '"';
-		data.output = px.execSync( cmd );
-		data.output = JSON.parse(data.output+'');
+		// var realpath = _resMgr.getResourceOriginalRealpath( data.resKey );
+		// if( !px.utils.isFile(realpath) ){
+		// 	realpath = res.realpath;
+		// }
+		// if( !px.utils.isFile(realpath) ){
+		// 	realpath = realpathSelected;
+		// }
+		//
+		// var cmd = px.cmd('php');
+		// cmd += ' '+px.path.resolve( _pj.get('path') + '/' + _pj.get('entry_script') );
+		// cmd += ' "/?PX=px2dthelper.convert_table_excel2html';
+		// cmd += '&path=' + px.php.urlencode(realpath);
+		// cmd += '&header_row=' + px.php.urlencode( data.header_row );
+		// cmd += '&header_col=' + px.php.urlencode( data.header_col );
+		// cmd += '&cell_renderer=' + px.php.urlencode( data.cell_renderer );
+		// cmd += '&renderer=' + px.php.urlencode( data.renderer );
+		// cmd += '"';
+		// data.output = px.execSync( cmd );
+		// data.output = JSON.parse(data.output+'');
 
 		callback(data);
 		return;

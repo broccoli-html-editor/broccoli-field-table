@@ -10,8 +10,8 @@
        "table": {
         "resKey": "",
         "output": "",
-        "header_row": 0,
-        "header_col": 0,
+        "header_row": "0",
+        "header_col": "0",
         "cell_renderer": "text",
         "renderer": "simplify"
        }
