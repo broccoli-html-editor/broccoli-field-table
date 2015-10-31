@@ -8,10 +8,10 @@
       "modId": "testMod1:dev/table",
       "fields": {
        "table": {
-        "resKey": "",
+        "resKey": "9d8d3961c3c1cf3725055d908e4be33a",
         "output": "",
-        "header_row": "0",
-        "header_col": "0",
+        "header_row": "2",
+        "header_col": "3",
         "cell_renderer": "text",
         "renderer": "simplify"
        }
@@ -23,7 +23,21 @@
   "secondly": {
    "modId": "_sys/root",
    "fields": {
-    "main": []
+    "main": [
+     {
+      "modId": "testMod1:dev/table",
+      "fields": {
+       "table": {
+        "resKey": "2a1b52629179ba7e7b36eba90108bbae",
+        "output": "",
+        "header_row": "0",
+        "header_col": "0",
+        "cell_renderer": "text",
+        "renderer": "simplify"
+       }
+      }
+     }
+    ]
    }
   }
  }

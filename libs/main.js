@@ -1,28 +1,17 @@
 module.exports = function(broccoli){
 
+	var it79 = require('iterate79');
+	var php = require('phpjs');
 	var _resMgr = broccoli.resourceMgr;
 	// var _pj = px.getCurrentProject();
 
 	/**
-	 * リソースファイルを解析する
+	 * パスから拡張子を取り出して返す
 	 */
-	function parseResource( realpathSelected ){
-		var tmpResInfo = {};
-		var realpath = JSON.parse( JSON.stringify( realpathSelected ) );
-		// tmpResInfo.ext = px.utils.getExtension( realpath ).toLowerCase();
-		// switch( tmpResInfo.ext ){
-		// 	case 'csv':                          tmpResInfo.type = 'text/csv';  break;
-		// 	case 'doc':                          tmpResInfo.type = 'application/msword';  break;
-		// 	case 'xls':                          tmpResInfo.type = 'application/vnd.ms-excel';  break;
-		// 	case 'ppt':                          tmpResInfo.type = 'application/vnd.ms-powerpoint';  break;
-		// 	case 'docx':                         tmpResInfo.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';  break;
-		// 	case 'xlsx':                         tmpResInfo.type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';  break;
-		// 	case 'pptx':                         tmpResInfo.type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';  break;
-		// 	default:
-		// 		tmpResInfo.type = 'text/csv'; break;
-		// }
-
-		return tmpResInfo;
+	function getExtension(path){
+		var ext = path.replace( new RegExp('^.*?\.([a-zA-Z0-9\_\-]+)$'), '$1' );
+		ext = ext.toLowerCase();
+		return ext;
 	}
 
 	/**
@@ -90,7 +79,7 @@ module.exports = function(broccoli){
 		// if( typeof(data.original) !== typeof({}) ){ data.original = {}; }
 		var res = _resMgr.getResource( data.resKey );
 
-		var $excel = $('<div>');
+		var $excel = $('<div data-excel-info>');
 		rtn.append( $excel );
 		// console.log(data);
 		if( data.resKey ){
@@ -115,10 +104,36 @@ module.exports = function(broccoli){
 				"webkitfile":"webkitfile"
 			})
 			.css({'width':'100%'})
-			.bind('change', function(){
+			.bind('change', function(e){
+				// console.log(e.target.files);
+				var fileInfo = e.target.files[0];
+
+				function readSelectedLocalFile(fileInfo, callback){
+					var reader = new FileReader();
+					reader.onload = function(evt) {
+						callback( evt.target.result );
+					}
+					reader.readAsDataURL(fileInfo);
+				}
+
 				var realpathSelected = $(this).val();
 				if( realpathSelected ){
-					$excel.html('選択しました');
+					readSelectedLocalFile(fileInfo, function(dataUri){
+						$excel
+							.html('選択しました')
+							.attr({
+								"src": dataUri ,
+								"data-size": fileInfo.size ,
+								"data-extension": getExtension( fileInfo.name ),
+								"data-mime-type": fileInfo.type ,
+								"data-base64": (function(dataUri){
+									dataUri = dataUri.replace(new RegExp('^data\\:[^\\;]*\\;base64\\,'), '');
+									// console.log(dataUri);
+									return dataUri;
+								})(dataUri)
+							})
+						;
+					});
 				}
 			})
 		);
@@ -221,6 +236,8 @@ module.exports = function(broccoli){
 	 * エディタUIで編集した内容を保存
 	 */
 	this.saveEditorContent = function( elm, data, mod, callback ){
+		var resInfo,
+			realpathSelected;
 		var $dom = $(elm);
 		if( typeof(data) !== typeof({}) ){
 			data = {};
@@ -228,49 +245,95 @@ module.exports = function(broccoli){
 		if( typeof(data.resKey) !== typeof('') ){
 			data.resKey = '';
 		}
-		if( _resMgr.getResource(data.resKey) === false ){
-			data.resKey = _resMgr.addResource();
-		}
 
-		var realpathSelected = $dom.find('input[name='+mod.name+']').val();
-		// if( px.utils.isFile(realpathSelected) ){
-		// 	var tmpResInfo = parseResource( realpathSelected );
-		// 	_resMgr.updateResource( data.resKey, tmpResInfo, function(){} );
-		// }else if( data.resKey ){
-		// 	_resMgr.resetBase64FromBin( data.resKey );
-		// }
-		// var res = _resMgr.getResource( data.resKey );
-		data.header_row = $dom.find('input[name="'+mod.name+':header_row"]').val();
-		data.header_col = $dom.find('input[name="'+mod.name+':header_col"]').val();
-		data.cell_renderer = $dom.find('input[name="'+mod.name+':cell_renderer"]:checked').val();
-		data.renderer = $dom.find('input[name="'+mod.name+':renderer"]:checked').val();
+		it79.fnc(
+			data,
+			[
+				function(it1, data){
+					data.header_row = $dom.find('input[name="'+mod.name+':header_row"]').val();
+					data.header_col = $dom.find('input[name="'+mod.name+':header_col"]').val();
+					data.cell_renderer = $dom.find('input[name="'+mod.name+':cell_renderer"]:checked').val();
+					data.renderer = $dom.find('input[name="'+mod.name+':renderer"]:checked').val();
+					it1.next(data);
+				} ,
+				function(it1, data){
+					// console.log('saving image field data.');
+					_resMgr.getResource(data.resKey, function(result){
+						// console.log(result);
+						if( result === false ){
+							_resMgr.addResource(function(newResKey){
+								data.resKey = newResKey;
+								// console.log(data.resKey);
+								it1.next(data);
+							});
+							return;
+						}
+						it1.next(data);
+					});
+				} ,
+				function(it1, data){
+					// console.log('getResource() finaly');
+					// console.log(data);
+					_resMgr.getResource(data.resKey, function(res){
+						resInfo = res;
+						// console.log(resInfo);
+						it1.next(data);
+					});
+					return;
+				} ,
+				function(it1, data){
+					realpathSelected = $dom.find('input[type=file]').val();
+					// console.log(realpathSelected);
+					if( realpathSelected ){
+						resInfo.ext = $dom.find('div[data-excel-info]').attr('data-extension');
+						resInfo.type = $dom.find('div[data-excel-info]').attr('data-mime-type');
+						resInfo.size = $dom.find('div[data-excel-info]').attr('data-size');
+						resInfo.base64 = $dom.find('div[data-excel-info]').attr('data-base64');
 
-		var res = _resMgr.getResource( data.resKey );
-		res.isPrivateMaterial = true;
-			// リソースファイルの設置は resourceMgr が行っている。
-			// isPrivateMaterial が true の場合、公開領域への設置は行われない。
+						resInfo.isPrivateMaterial = true;
+							// リソースファイルの設置は resourceMgr が行っている。
+							// isPrivateMaterial が true の場合、公開領域への設置は行われない。
 
-		// var realpath = _resMgr.getResourceOriginalRealpath( data.resKey );
-		// if( !px.utils.isFile(realpath) ){
-		// 	realpath = res.realpath;
-		// }
-		// if( !px.utils.isFile(realpath) ){
-		// 	realpath = realpathSelected;
-		// }
-		//
-		// var cmd = px.cmd('php');
-		// cmd += ' '+px.path.resolve( _pj.get('path') + '/' + _pj.get('entry_script') );
-		// cmd += ' "/?PX=px2dthelper.convert_table_excel2html';
-		// cmd += '&path=' + px.php.urlencode(realpath);
-		// cmd += '&header_row=' + px.php.urlencode( data.header_row );
-		// cmd += '&header_col=' + px.php.urlencode( data.header_col );
-		// cmd += '&cell_renderer=' + px.php.urlencode( data.cell_renderer );
-		// cmd += '&renderer=' + px.php.urlencode( data.renderer );
-		// cmd += '"';
-		// data.output = px.execSync( cmd );
-		// data.output = JSON.parse(data.output+'');
+						// console.log(resInfo);
+						_resMgr.updateResource( data.resKey, resInfo, function(){
+							// var res = _resMgr.getResource( data.resKey );
+							it1.next(data);
+						} );
+						return ;
+					}
+					it1.next(data);
+					return ;
+				} ,
+				function(it1, data){
+					// var realpath = _resMgr.getResourceOriginalRealpath( data.resKey );
+					// if( !px.utils.isFile(realpath) ){
+					// 	realpath = res.realpath;
+					// }
+					// if( !px.utils.isFile(realpath) ){
+					// 	realpath = realpathSelected;
+					// }
+					//
+					// var cmd = px.cmd('php');
+					// cmd += ' '+px.path.resolve( _pj.get('path') + '/' + _pj.get('entry_script') );
+					// cmd += ' "/?PX=px2dthelper.convert_table_excel2html';
+					// cmd += '&path=' + px.php.urlencode(realpath);
+					// cmd += '&header_row=' + px.php.urlencode( data.header_row );
+					// cmd += '&header_col=' + px.php.urlencode( data.header_col );
+					// cmd += '&cell_renderer=' + px.php.urlencode( data.cell_renderer );
+					// cmd += '&renderer=' + px.php.urlencode( data.renderer );
+					// cmd += '"';
+					// data.output = px.execSync( cmd );
+					// data.output = JSON.parse(data.output+'');
+					it1.next(data);
+				} ,
+				function(it1, data){
+					// console.log(data);
+					callback(data);
+					it1.next(data);
+				}
+			]
+		);
 
-		callback(data);
 		return;
 	}// this.saveEditorContent()
 
