@@ -3,6 +3,7 @@ module.exports = function(broccoli){
 	// 	delete(require.cache[require('path').resolve(__filename)]);
 	// }
 
+	var $ = require('jquery');
 	var it79 = require('iterate79');
 	var php = require('phpjs');
 	var _resMgr = broccoli.resourceMgr;
@@ -74,6 +75,7 @@ module.exports = function(broccoli){
 	 * エディタUIを生成 (Client Side)
 	 */
 	this.mkEditor = function( mod, data, elm, callback ){
+		var _this = this;
 		var rtn = $('<div>');
 		if( typeof(data) !== typeof({}) ){ data = {}; }
 		if( typeof(data.resKey) !== typeof('') ){
@@ -87,14 +89,23 @@ module.exports = function(broccoli){
 		// console.log(data);
 		if( data.resKey ){
 			$excel.html('')
-				.append( $('<button type="button">エクセルで開く</button>')
+				.append( $('<button type="button">Excelで編集する</button>')
 					.attr({
-						'title': _resMgr.getResourceOriginalRealpath( data.resKey ),
-						'data-excel-realpath': _resMgr.getResourceOriginalRealpath( data.resKey )
+						'data-excel-resKey': data.resKey
 					})
 					.click(function(){
-						var realpath = $(this).attr('data-excel-realpath');
-						px.utils.openURL(realpath);
+						var resKey = $(this).attr('data-excel-resKey');
+						_this.callGpi(
+							{
+								'api': 'openOuternalEditor',
+								'data': {
+									'resKey': resKey
+								}
+							} ,
+							function(output){
+								return;
+							}
+						);
 					})
 				)
 			;
@@ -289,6 +300,8 @@ module.exports = function(broccoli){
 					realpathSelected = $dom.find('input[type=file]').val();
 					// console.log(realpathSelected);
 					if( realpathSelected ){
+						// Excelファイルが選択された場合、
+						// 選択されたファイルの情報を resourceMgr に登録する。
 						resInfo.ext = $dom.find('div[data-excel-info]').attr('data-extension');
 						resInfo.type = $dom.find('div[data-excel-info]').attr('data-mime-type');
 						resInfo.size = $dom.find('div[data-excel-info]').attr('data-size');
@@ -304,13 +317,30 @@ module.exports = function(broccoli){
 							it1.next(data);
 						} );
 						return ;
+					}else{
+						// Excelファイルが選択されていない場合、
+						// 過去に登録済みの bin.xlsx が変更されている可能性があるので、
+						// bin2base64 でJSONを更新しておく。
+						_resMgr.resetBase64FromBin( data.resKey, resInfo, function(){
+							// var res = _resMgr.getResource( data.resKey );
+							it1.next(data);
+						} );
+						return ;
 					}
 					it1.next(data);
 					return ;
 				} ,
 				function(it1, data){
+					// ここで一旦保存しないと、古いデータで変換してしまう。
+					_resMgr.save( function(){
+						// var res = _resMgr.getResource( data.resKey );
+						it1.next(data);
+					} );
+				} ,
+				function(it1, data){
 					_this.callGpi(
 						{
+							'api': 'excel2html',
 							'data': data
 						} ,
 						function(output){
@@ -338,40 +368,72 @@ module.exports = function(broccoli){
 		callback = callback || function(){};
 		var nodePhpBin = require('node-php-bin').get();
 
-		it79.fnc(
-			options.data,
-			[
-				function(it1, data){
-					_resMgr.getResourceOriginalRealpath( data.resKey, function(realpath){
-						// console.log(realpath);
-						data.realpath = realpath;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-
-					nodePhpBin.script(
-						[
-							__dirname+'/php/excel2html.php',
-							'--path', data.realpath ,
-							'--header_row', data.header_row,
-							'--header_col', data.header_col,
-							'--cell_renderer', data.cell_renderer,
-							'--renderer', data.renderer
-						],
-						function(output, error, code){
-							data.output = output;
+		switch(options.api){
+			case 'openOuternalEditor':
+				it79.fnc(
+					options.data,
+					[
+						function(it1, data){
+							_resMgr.getResourceOriginalRealpath( data.resKey, function(realpath){
+								// console.log(realpath);
+								data.realpath = realpath;
+								it1.next(data);
+							} );
+						} ,
+						function(it1, data){
+							var desktopUtils = require('desktop-utils');
+							desktopUtils.open( data.realpath );
+							it1.next(data);
+						} ,
+						function(it1, data){
+							callback({'result':'OK'});
 							it1.next(data);
 						}
-					);
+					]
+				);
+				break;
 
-				} ,
-				function(it1, data){
-					callback(data.output);
-					it1.next(data);
-				}
-			]
-		);
+			case 'excel2html':
+				it79.fnc(
+					options.data,
+					[
+						function(it1, data){
+							_resMgr.getResourceOriginalRealpath( data.resKey, function(realpath){
+								// console.log(realpath);
+								data.realpath = realpath;
+								it1.next(data);
+							} );
+						} ,
+						function(it1, data){
+
+							nodePhpBin.script(
+								[
+									__dirname+'/php/excel2html.php',
+									'--path', data.realpath ,
+									'--header_row', data.header_row,
+									'--header_col', data.header_col,
+									'--cell_renderer', data.cell_renderer,
+									'--renderer', data.renderer
+								],
+								function(output, error, code){
+									data.output = output;
+									it1.next(data);
+								}
+							);
+
+						} ,
+						function(it1, data){
+							callback(data.output);
+							it1.next(data);
+						}
+					]
+				);
+				break;
+
+			default:
+				callback('ERROR: Unknown API');
+				break;
+		}
 
 		return this;
 	}
