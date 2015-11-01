@@ -6,22 +6,25 @@ var Promise = require("es6-promise").Promise;
 var Broccoli = require('broccoli-html-editor');
 
 function makeDefaultBroccoli(callback){
-	var broccoli = new Broccoli({
-		'paths_module_template':{
-			'PlainHTMLElements': '../PlainHTMLElements/',
-			'testMod1': '../modules1/'
+	var broccoli = new Broccoli();
+	broccoli.init(
+		{
+			'paths_module_template':{
+				'PlainHTMLElements': '../PlainHTMLElements/',
+				'testMod1': '../modules1/'
+			},
+			'documentRoot': path.resolve(__dirname, 'testdata/htdocs/')+'/',
+			'pathHtml': '/test1/test1.html',
+			'pathResourceDir': '/test1/test1_files/resources/',
+			'realpathDataDir': path.resolve(__dirname, 'testdata/htdocs/test1/test1_files/guieditor.ignore/')+'/' ,
+			'customFields': {
+				'table': require('./../libs/main.js')
+			}
 		},
-		'documentRoot': path.resolve(__dirname, 'testdata/htdocs/')+'/',
-		'pathHtml': '/test1/test1.html',
-		'pathResourceDir': '/test1/test1_files/resources/',
-		'realpathDataDir': path.resolve(__dirname, 'testdata/htdocs/test1/test1_files/guieditor.ignore/')+'/' ,
-		'customFields': {
-			'table': require('./../libs/main.js')
+		function(){
+			callback(broccoli);
 		}
-	});
-	broccoli.init(function(){
-		callback(broccoli);
-	});
+	);
 	return;
 }
 
