@@ -1,7 +1,5 @@
 {
-    "name": "tomk79/broccoli-html-editor--table-field",
-    "description": "",
-    "keywords": ["broccoli-html-editor"],
+    "name": "tomoya/broccoli-html-editor--table-field",
     "license": "MIT",
     "authors": [
         {
@@ -9,16 +7,12 @@
             "email": "tomk79@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-    ],
     "require": {
-    },
-    "require-dev": {
-    },
-    "autoload": {
-        "files": [
-        ]
+        "php": ">=5.4.0",
+        "tomk79/filesystem": "1.*",
+        "tomk79/request": "0.1.*",
+        "tomk79/php-excel2html": "0.0.*",
+        "michelf/php-markdown": "1.4.*",
+        "leafo/scssphp": "0.1.*"
     }
 }

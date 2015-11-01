@@ -1,0 +1,303 @@
+[
+    {
+        "name": "tomk79/filesystem",
+        "version": "1.0.5",
+        "version_normalized": "1.0.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/tomk79/filesystem.git",
+            "reference": "68ce4189b12f5809f4baa88806175b1989f7d76a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tomk79/filesystem/zipball/68ce4189b12f5809f4baa88806175b1989f7d76a",
+            "reference": "68ce4189b12f5809f4baa88806175b1989f7d76a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpdocumentor/phpdocumentor": "2.8.*",
+            "phpunit/phpunit": "4.1.*"
+        },
+        "time": "2015-09-03 07:06:37",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "php/filesystem.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Tomoya Koyanagi",
+                "email": "tomk79@gmail.com",
+                "homepage": "http://www.pxt.jp/"
+            }
+        ],
+        "description": "Simple filesystem utility for PHP.",
+        "keywords": [
+            "filesystem"
+        ]
+    },
+    {
+        "name": "tomk79/request",
+        "version": "0.1.4",
+        "version_normalized": "0.1.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/tomk79/request.git",
+            "reference": "5b008a93f03899c101c9bd67a057100011e72782"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tomk79/request/zipball/5b008a93f03899c101c9bd67a057100011e72782",
+            "reference": "5b008a93f03899c101c9bd67a057100011e72782",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0",
+            "tomk79/filesystem": "1.*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.1.*"
+        },
+        "time": "2015-03-18 15:24:07",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "php/request.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Tomoya Koyanagi",
+                "email": "tomk79@gmail.com"
+            }
+        ]
+    },
+    {
+        "name": "phpoffice/phpexcel",
+        "version": "1.8.1",
+        "version_normalized": "1.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPOffice/PHPExcel.git",
+            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "shasum": ""
+        },
+        "require": {
+            "ext-xml": "*",
+            "ext-xmlwriter": "*",
+            "php": ">=5.2.0"
+        },
+        "time": "2015-05-01 07:00:55",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PHPExcel": "Classes/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Maarten Balliauw",
+                "homepage": "http://blog.maartenballiauw.be"
+            },
+            {
+                "name": "Mark Baker"
+            },
+            {
+                "name": "Franck Lefevre",
+                "homepage": "http://blog.rootslabs.net"
+            },
+            {
+                "name": "Erik Tilt"
+            }
+        ],
+        "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+        "homepage": "http://phpexcel.codeplex.com",
+        "keywords": [
+            "OpenXML",
+            "excel",
+            "php",
+            "spreadsheet",
+            "xls",
+            "xlsx"
+        ]
+    },
+    {
+        "name": "michelf/php-markdown",
+        "version": "1.4.1",
+        "version_normalized": "1.4.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/michelf/php-markdown.git",
+            "reference": "de9a19c7bf352d41cc99ed86c3c0ef17e87394b6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/michelf/php-markdown/zipball/de9a19c7bf352d41cc99ed86c3c0ef17e87394b6",
+            "reference": "de9a19c7bf352d41cc99ed86c3c0ef17e87394b6",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2014-05-05 02:43:50",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-lib": "1.4.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Michelf": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Michel Fortin",
+                "email": "michel.fortin@michelf.ca",
+                "homepage": "http://michelf.ca/",
+                "role": "Developer"
+            },
+            {
+                "name": "John Gruber",
+                "homepage": "http://daringfireball.net/"
+            }
+        ],
+        "description": "PHP Markdown",
+        "homepage": "http://michelf.ca/projects/php-markdown/",
+        "keywords": [
+            "markdown"
+        ]
+    },
+    {
+        "name": "tomk79/php-excel2html",
+        "version": "0.0.4",
+        "version_normalized": "0.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/tomk79/php-excel2html.git",
+            "reference": "915da9c6be71b4c9ebfc01706bd4aea89c4c0b1d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tomk79/php-excel2html/zipball/915da9c6be71b4c9ebfc01706bd4aea89c4c0b1d",
+            "reference": "915da9c6be71b4c9ebfc01706bd4aea89c4c0b1d",
+            "shasum": ""
+        },
+        "require": {
+            "michelf/php-markdown": "1.4.*",
+            "php": ">=5.3.0",
+            "phpoffice/phpexcel": "1.8.*",
+            "tomk79/filesystem": "1.*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.1.*"
+        },
+        "time": "2015-07-28 04:06:38",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "php/main.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Tomoya Koyanagi",
+                "email": "tomk79@gmail.com"
+            }
+        ],
+        "description": "Convert Excel(*.xlsx) to HTML table. with PHPExcel."
+    },
+    {
+        "name": "leafo/scssphp",
+        "version": "v0.1.10",
+        "version_normalized": "0.1.10.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/leafo/scssphp.git",
+            "reference": "9e945cc64ccb6126123dd45cc2d219a4fbc99582"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/leafo/scssphp/zipball/9e945cc64ccb6126123dd45cc2d219a4fbc99582",
+            "reference": "9e945cc64ccb6126123dd45cc2d219a4fbc99582",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "kherge/box": "~2.5",
+            "phpunit/phpunit": "~3.7",
+            "squizlabs/php_codesniffer": "~2.3"
+        },
+        "time": "2015-08-23 16:12:31",
+        "bin": [
+            "bin/pscss"
+        ],
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "classmap.php"
+            ],
+            "psr-4": {
+                "Leafo\\ScssPhp\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Leaf Corcoran",
+                "email": "leafot@gmail.com",
+                "homepage": "http://leafo.net"
+            }
+        ],
+        "description": "scssphp is a compiler for SCSS written in PHP.",
+        "homepage": "http://leafo.github.io/scssphp/",
+        "keywords": [
+            "css",
+            "less",
+            "sass",
+            "scss",
+            "stylesheet"
+        ]
+    }
+]

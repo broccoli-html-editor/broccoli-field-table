@@ -351,26 +351,22 @@ module.exports = function(broccoli){
 					} );
 				} ,
 				function(it1, data){
+
 					nodePhpBin.script(
-						__dirname+'/php/excel2html.php',
-						{
-						},
+						[
+							__dirname+'/php/excel2html.php',
+							'--path', data.realpath ,
+							'--header_row', data.header_row,
+							'--header_col', data.header_col,
+							'--cell_renderer', data.cell_renderer,
+							'--renderer', data.renderer
+						],
 						function(output, error, code){
 							data.output = output;
 							it1.next(data);
 						}
 					);
-					// var cmd = px.cmd('php');
-					// cmd += ' '+px.path.resolve( _pj.get('path') + '/' + _pj.get('entry_script') );
-					// cmd += ' "/?PX=px2dthelper.convert_table_excel2html';
-					// cmd += '&path=' + px.php.urlencode(realpath);
-					// cmd += '&header_row=' + px.php.urlencode( data.header_row );
-					// cmd += '&header_col=' + px.php.urlencode( data.header_col );
-					// cmd += '&cell_renderer=' + px.php.urlencode( data.cell_renderer );
-					// cmd += '&renderer=' + px.php.urlencode( data.renderer );
-					// cmd += '"';
-					// data.output = px.execSync( cmd );
-					// data.output = JSON.parse(data.output+'');
+
 				} ,
 				function(it1, data){
 					callback(data.output);
