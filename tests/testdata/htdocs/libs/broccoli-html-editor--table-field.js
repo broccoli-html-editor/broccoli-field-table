@@ -1,5 +1,9 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function (__dirname){
 module.exports = function(broccoli){
+	// if( process ){
+	// 	delete(require.cache[require('path').resolve(__filename)]);
+	// }
 
 	var it79 = require('iterate79');
 	var php = require('phpjs');
@@ -69,7 +73,7 @@ module.exports = function(broccoli){
 	}
 
 	/**
-	 * エディタUIを生成
+	 * エディタUIを生成 (Client Side)
 	 */
 	this.mkEditor = function( mod, data, elm, callback ){
 		var rtn = $('<div>');
@@ -237,6 +241,7 @@ module.exports = function(broccoli){
 	 * エディタUIで編集した内容を保存
 	 */
 	this.saveEditorContent = function( elm, data, mod, callback ){
+		var _this = this;
 		var resInfo,
 			realpathSelected;
 		var $dom = $(elm);
@@ -306,26 +311,16 @@ module.exports = function(broccoli){
 					return ;
 				} ,
 				function(it1, data){
-					// var realpath = _resMgr.getResourceOriginalRealpath( data.resKey );
-					// if( !px.utils.isFile(realpath) ){
-					// 	realpath = res.realpath;
-					// }
-					// if( !px.utils.isFile(realpath) ){
-					// 	realpath = realpathSelected;
-					// }
-					//
-					// var cmd = px.cmd('php');
-					// cmd += ' '+px.path.resolve( _pj.get('path') + '/' + _pj.get('entry_script') );
-					// cmd += ' "/?PX=px2dthelper.convert_table_excel2html';
-					// cmd += '&path=' + px.php.urlencode(realpath);
-					// cmd += '&header_row=' + px.php.urlencode( data.header_row );
-					// cmd += '&header_col=' + px.php.urlencode( data.header_col );
-					// cmd += '&cell_renderer=' + px.php.urlencode( data.cell_renderer );
-					// cmd += '&renderer=' + px.php.urlencode( data.renderer );
-					// cmd += '"';
-					// data.output = px.execSync( cmd );
-					// data.output = JSON.parse(data.output+'');
-					it1.next(data);
+					_this.callGpi(
+						{
+							'data': data
+						} ,
+						function(output){
+							data.output = output;
+							it1.next(data);
+							return;
+						}
+					);
 				} ,
 				function(it1, data){
 					// console.log(data);
@@ -338,9 +333,126 @@ module.exports = function(broccoli){
 		return;
 	}// this.saveEditorContent()
 
+	/**
+	 * GPI (Server Side)
+	 */
+	this.gpi = function(options, callback){
+		callback = callback || function(){};
+		var nodePhpBin = require('node-php-bin').get();
+
+		it79.fnc(
+			options.data,
+			[
+				function(it1, data){
+					_resMgr.getResourceOriginalRealpath( data.resKey, function(realpath){
+						// console.log(realpath);
+						data.realpath = realpath;
+						it1.next(data);
+					} );
+				} ,
+				function(it1, data){
+					nodePhpBin.script(
+						__dirname+'/php/excel2html.php',
+						{
+						},
+						function(output, error, code){
+							data.output = output;
+							it1.next(data);
+						}
+					);
+					// var cmd = px.cmd('php');
+					// cmd += ' '+px.path.resolve( _pj.get('path') + '/' + _pj.get('entry_script') );
+					// cmd += ' "/?PX=px2dthelper.convert_table_excel2html';
+					// cmd += '&path=' + px.php.urlencode(realpath);
+					// cmd += '&header_row=' + px.php.urlencode( data.header_row );
+					// cmd += '&header_col=' + px.php.urlencode( data.header_col );
+					// cmd += '&cell_renderer=' + px.php.urlencode( data.cell_renderer );
+					// cmd += '&renderer=' + px.php.urlencode( data.renderer );
+					// cmd += '"';
+					// data.output = px.execSync( cmd );
+					// data.output = JSON.parse(data.output+'');
+				} ,
+				function(it1, data){
+					callback(data.output);
+					it1.next(data);
+				}
+			]
+		);
+
+		return this;
+	}
+
 }
 
-},{"iterate79":2,"phpjs":4}],2:[function(require,module,exports){
+}).call(this,"/../libs")
+},{"iterate79":4,"node-php-bin":5,"phpjs":7}],2:[function(require,module,exports){
+
+},{}],3:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
+
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
+    }
+
+    if (canPost) {
+        var queue = [];
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
+
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
+    }
+
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+}
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+
+},{}],4:[function(require,module,exports){
 /**
  * node-iterate79
  */
@@ -416,7 +528,154 @@ module.exports = function(broccoli){
 
 })(exports);
 
-},{}],3:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
+(function (process,__dirname){
+/**
+ * node-php-bin
+ */
+module.exports = new (function(){
+	var childProcess = require('child_process');
+	var fs = require('fs');
+	var _platform = process.platform;
+
+	this.get = function(options){
+		var phpBin, phpVersion, phpIni, phpExtensionDir, phpPresetCmdOptions;
+		function phpAgent(options){
+			options = options || {};
+			phpPresetCmdOptions = [];
+			phpExtensionDir = null;
+			if( _platform == 'linux' ){
+				// linux で動くバイナリは含まれていないので、
+				// 内部コマンドをデフォルトにする。
+				phpBin = 'php';
+				phpIni = null;
+			}else{
+				phpBin = fs.realpathSync( __dirname+'/../bin/'+_platform+'/'+(_platform == 'win32'?'5.6.8':'5.6.7')+'/php'+(_platform == 'win32'?'.exe':'') );
+				phpIni = fs.realpathSync( __dirname+'/../bin/'+_platform+'/php.ini' );
+			}
+			if( _platform == 'win32' ){
+				phpExtensionDir = fs.realpathSync( __dirname+'/../bin/'+_platform+'/5.6.8/ext/' );
+				phpPresetCmdOptions = phpPresetCmdOptions.concat([
+					'-d', 'extension_dir='+phpExtensionDir
+				]);
+			}
+
+			if(options.bin){
+				phpBin = options.bin;
+			}
+			if(options.ini){
+				phpPresetCmdOptions = [];// windows向けの -d オプションを削除する
+				phpIni = options.ini;
+			}
+
+			if( phpIni !== null ){
+				phpPresetCmdOptions = phpPresetCmdOptions.concat([
+					'-c', phpIni
+				]);
+			}
+		}
+
+		/**
+		 * PHP のパスを取得
+		 */
+		phpAgent.prototype.getPath = function(){
+			if(phpBin == 'php'){return phpBin;}
+			return fs.realpathSync(phpBin);
+		}
+
+		/**
+		 * php.ini のパスを取得
+		 */
+		phpAgent.prototype.getIniPath = function(){
+			if(phpIni == null){return null;}
+			return fs.realpathSync(phpIni);
+		}
+
+		/**
+		 * phpExtensionDir を取得
+		 */
+		phpAgent.prototype.getExtensionDir = function(){
+			if(phpExtensionDir == null){return null;}
+			return fs.realpathSync(phpExtensionDir);
+		}
+
+		/**
+		 * PHPのバージョン番号を得る
+		 */
+		phpAgent.prototype.getPhpVersion = function(cb){
+			cb = cb || function(){};
+			var child = this.spawn(
+				['-v'],
+				{}
+			);
+			var data = '';
+			child.stdout.on('data', function(row){
+				data += row.toString();
+			});
+			child.stderr.on('data', function(error){
+				data += error.toString();
+			});
+			child.on('exit', function(code){
+				var rtn = data;
+				data.match(new RegExp('^PHP\\s+([0-9]+\\.[0-9]+\\.[0-9])'));
+				rtn = RegExp.$1;
+				// console.log(rtn);
+				cb(rtn);
+			});
+			return this;
+		}
+
+		/**
+		 * PHPコマンドを実行する
+		 */
+		phpAgent.prototype.script = function(cliParams, options, cb){
+			cb = arguments[arguments.length-1];
+			if( typeof(cb) !== typeof(function(){}) ){cb = function(){};}
+			options = options || {};
+			if( typeof(options) !== typeof({}) ){
+				options = {};
+			}
+
+			var child = this.spawn(
+				cliParams,
+				options
+			);
+			var data = '';
+			var error = '';
+			child.stdout.on('data', function( row ){
+				data += row.toString();
+			});
+			child.stderr.on('data', function( err ){
+				data += err.toString();
+				error += err.toString();
+			});
+			child.on('exit', function(code){
+				cb( data, error, code );
+			});
+			return this;
+		}
+
+		/**
+		 * PHPコマンドを実行する(spawn)
+		 */
+		phpAgent.prototype.spawn = function(cliParams, options){
+			cliParams = cliParams || [];
+			options = options || {};
+			var child = childProcess.spawn(
+				phpBin,
+				phpPresetCmdOptions.concat(cliParams),
+				options
+			);
+			return child;
+		}
+
+		return new phpAgent(options);
+	}
+
+})();
+
+}).call(this,require("1YiZ5S"),"/../node_modules/node-php-bin/libs")
+},{"1YiZ5S":3,"child_process":2,"fs":2}],6:[function(require,module,exports){
 (function (global){
 // This file is generated by `make build`. 
 // Do NOT edit by hand. 
@@ -13674,7 +13933,7 @@ exports.strtr = function (str, from, to) {
 };
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],4:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 (function (global){
 phpjs = require('./build/npm');
 
@@ -13687,9 +13946,9 @@ phpjs.registerGlobals = function() {
 module.exports = phpjs;
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./build/npm":3}],5:[function(require,module,exports){
+},{"./build/npm":6}],8:[function(require,module,exports){
 (function(window){
 	window.BroccoliHtmlEditorTableField = require('../libs/main.js');
 })(window);
 
-},{"../libs/main.js":1}]},{},[5])
+},{"../libs/main.js":1}]},{},[8])

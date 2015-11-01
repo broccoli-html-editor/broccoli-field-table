@@ -1,4 +1,7 @@
 module.exports = function(broccoli){
+	// if( process ){
+	// 	delete(require.cache[require('path').resolve(__filename)]);
+	// }
 
 	var it79 = require('iterate79');
 	var php = require('phpjs');
@@ -68,7 +71,7 @@ module.exports = function(broccoli){
 	}
 
 	/**
-	 * エディタUIを生成
+	 * エディタUIを生成 (Client Side)
 	 */
 	this.mkEditor = function( mod, data, elm, callback ){
 		var rtn = $('<div>');
@@ -236,6 +239,7 @@ module.exports = function(broccoli){
 	 * エディタUIで編集した内容を保存
 	 */
 	this.saveEditorContent = function( elm, data, mod, callback ){
+		var _this = this;
 		var resInfo,
 			realpathSelected;
 		var $dom = $(elm);
@@ -305,26 +309,16 @@ module.exports = function(broccoli){
 					return ;
 				} ,
 				function(it1, data){
-					// var realpath = _resMgr.getResourceOriginalRealpath( data.resKey );
-					// if( !px.utils.isFile(realpath) ){
-					// 	realpath = res.realpath;
-					// }
-					// if( !px.utils.isFile(realpath) ){
-					// 	realpath = realpathSelected;
-					// }
-					//
-					// var cmd = px.cmd('php');
-					// cmd += ' '+px.path.resolve( _pj.get('path') + '/' + _pj.get('entry_script') );
-					// cmd += ' "/?PX=px2dthelper.convert_table_excel2html';
-					// cmd += '&path=' + px.php.urlencode(realpath);
-					// cmd += '&header_row=' + px.php.urlencode( data.header_row );
-					// cmd += '&header_col=' + px.php.urlencode( data.header_col );
-					// cmd += '&cell_renderer=' + px.php.urlencode( data.cell_renderer );
-					// cmd += '&renderer=' + px.php.urlencode( data.renderer );
-					// cmd += '"';
-					// data.output = px.execSync( cmd );
-					// data.output = JSON.parse(data.output+'');
-					it1.next(data);
+					_this.callGpi(
+						{
+							'data': data
+						} ,
+						function(output){
+							data.output = output;
+							it1.next(data);
+							return;
+						}
+					);
 				} ,
 				function(it1, data){
 					// console.log(data);
@@ -336,5 +330,54 @@ module.exports = function(broccoli){
 
 		return;
 	}// this.saveEditorContent()
+
+	/**
+	 * GPI (Server Side)
+	 */
+	this.gpi = function(options, callback){
+		callback = callback || function(){};
+		var nodePhpBin = require('node-php-bin').get();
+
+		it79.fnc(
+			options.data,
+			[
+				function(it1, data){
+					_resMgr.getResourceOriginalRealpath( data.resKey, function(realpath){
+						// console.log(realpath);
+						data.realpath = realpath;
+						it1.next(data);
+					} );
+				} ,
+				function(it1, data){
+					nodePhpBin.script(
+						__dirname+'/php/excel2html.php',
+						{
+						},
+						function(output, error, code){
+							data.output = output;
+							it1.next(data);
+						}
+					);
+					// var cmd = px.cmd('php');
+					// cmd += ' '+px.path.resolve( _pj.get('path') + '/' + _pj.get('entry_script') );
+					// cmd += ' "/?PX=px2dthelper.convert_table_excel2html';
+					// cmd += '&path=' + px.php.urlencode(realpath);
+					// cmd += '&header_row=' + px.php.urlencode( data.header_row );
+					// cmd += '&header_col=' + px.php.urlencode( data.header_col );
+					// cmd += '&cell_renderer=' + px.php.urlencode( data.cell_renderer );
+					// cmd += '&renderer=' + px.php.urlencode( data.renderer );
+					// cmd += '"';
+					// data.output = px.execSync( cmd );
+					// data.output = JSON.parse(data.output+'');
+				} ,
+				function(it1, data){
+					callback(data.output);
+					it1.next(data);
+				}
+			]
+		);
+
+		return this;
+	}
 
 }
