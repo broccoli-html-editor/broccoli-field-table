@@ -323,8 +323,7 @@ module.exports = function(broccoli){
 						// Excelファイルが選択されていない場合、
 						// 過去に登録済みの bin.xlsx が変更されている可能性があるので、
 						// bin2base64 でJSONを更新しておく。
-						_resMgr.resetBase64FromBin( data.resKey, resInfo, function(){
-							// var res = _resMgr.getResource( data.resKey );
+						_resMgr.resetBase64FromBin( data.resKey, function(){
 							it1.next(data);
 						} );
 						return ;

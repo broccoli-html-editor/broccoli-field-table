@@ -23,21 +23,7 @@
   "secondly": {
    "modId": "_sys/root",
    "fields": {
-    "main": [
-     {
-      "modId": "testMod1:dev/table",
-      "fields": {
-       "table": {
-        "resKey": "2a1b52629179ba7e7b36eba90108bbae",
-        "output": "",
-        "header_row": "0",
-        "header_col": "0",
-        "cell_renderer": "text",
-        "renderer": "simplify"
-       }
-      }
-     }
-    ]
+    "main": []
    }
   }
  }

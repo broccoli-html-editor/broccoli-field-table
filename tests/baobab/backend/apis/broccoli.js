@@ -36,6 +36,9 @@ module.exports = function( data, callback, main, socket ){
 						fin += '        <title>sample page</title>'+"\n";
 						fin += '        <style media="screen">'+"\n";
 						fin += '            img{max-width:100%;}'+"\n";
+						fin += '            table{border:1px solid #666;}'+"\n";
+						fin += '            table th{border:1px solid #666;}'+"\n";
+						fin += '            table td{border:1px solid #666;}'+"\n";
 						fin += '        </style>'+"\n";
 						fin += '    </head>'+"\n";
 						fin += '    <body>'+"\n";
