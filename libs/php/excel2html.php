@@ -24,9 +24,14 @@ if( !is_file($path_xlsx) || !is_readable($path_xlsx) ){
 	print '<!-- ERROR: $path_xlsx is NOT a file or NOT readable. -->';
 	exit;
 }
+$bin = file_get_contents($path_xlsx);
+if( !strlen($bin) ){
+	// print '<!-- ERROR: $path_xlsx contains NO contents. -->';
+	print '';
+	exit;
+}
 
 $excel2html = new \tomk79\excel2html\main($path_xlsx);
 $val = @$excel2html->get_html($options);
-// var_dump($val);
 print $val;
 exit;

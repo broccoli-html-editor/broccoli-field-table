@@ -345,6 +345,9 @@ module.exports = function(broccoli){
 						} ,
 						function(output){
 							data.output = output;
+							if(!php.is_string(data.output)){
+								data.output = '';
+							}
 							it1.next(data);
 							return;
 						}
