@@ -11,12 +11,21 @@ var browserify = require("gulp-browserify");//NodeJSのコードをブラウザ�
 var packageJson = require(__dirname+'/package.json');
 var _tasks = [
 	'broccoli-html-editor--table-field.js',
+	'broccoli-html-editor',
 	'test/main.js'
 ];
 
 
 
 // broccoli.js (frontend) を処理
+gulp.task("broccoli-html-editor", function() {
+	gulp.src(["node_modules/broccoli-html-editor/client/dist/*"])
+		.pipe(gulp.dest( './tests/testdata/htdocs/libs/' ))
+	;
+});
+
+
+// broccoli-html-editor--table-field.js (frontend) を処理
 gulp.task("broccoli-html-editor--table-field.js", function() {
 	gulp.src(["src/broccoli-html-editor--table-field.js"])
 		.pipe(plumber())
