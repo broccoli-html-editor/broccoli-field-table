@@ -329,13 +329,14 @@ module.exports = function(broccoli){
 					it1.next(data);
 					return ;
 				} ,
-				function(it1, data){
-					// ここで一旦保存しないと、古いデータで変換してしまう。
-					_resMgr.save( function(){
-						// var res = _resMgr.getResource( data.resKey );
-						it1.next(data);
-					} );
-				} ,
+				// function(it1, data){
+				// 	// ☓ここで一旦保存しないと、古いデータで変換してしまう。
+				// 	// ○ここで一旦保存しちゃうと、addResource() した新しいデータが削除されてしまう。
+				// 	_resMgr.save( function(){
+				// 		// var res = _resMgr.getResource( data.resKey );
+				// 		it1.next(data);
+				// 	} );
+				// } ,
 				function(it1, data){
 					_this.callGpi(
 						{
