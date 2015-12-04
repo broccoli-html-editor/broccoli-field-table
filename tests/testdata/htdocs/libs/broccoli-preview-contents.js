@@ -64,6 +64,7 @@
 				elm.subModName = $this.attr('data-broccoli-sub-mod-name');
 				elm.isAppender = ($this.attr('data-broccoli-is-appender') == 'yes');
 				elm.areaSizeDetection = $this.attr('data-broccoli-area-size-detection');
+				elm.modName = $this.attr('data-broccoli-module-name');
 				elm.offsetLeft = $this.offset().left;
 				elm.offsetTop = $this.offset().top;
 				elm.outerWidth = elm.offsetLeft + $this.outerWidth();
@@ -101,10 +102,26 @@
 			callbackMessage(data.callback, height);
 			return;
 
+		}else if(data.api == 'getBowlList'){
+			// console.log(data);
+			var bowls = [];
+			$iframeWindow
+				.find(data.options.contents_area_selector)
+				.html('...')
+				.each(function(){
+					var $this = $(this);
+					var bowlName = $this.attr(data.options.contents_bowl_name_by);
+					bowls.push(bowlName);
+				})
+			;
+			callbackMessage(data.callback, bowls);
+			return;
+
 		}else{
 			callbackMessage(data.callback, false);
 			return;
 		}
+		return;
 	});
 
 })();
