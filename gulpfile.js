@@ -10,7 +10,7 @@ var twig = require("gulp-twig");//Twigテンプレートエンジン
 var browserify = require("gulp-browserify");//NodeJSのコードをブラウザ向けコードに変換
 var packageJson = require(__dirname+'/package.json');
 var _tasks = [
-	'broccoli-html-editor--table-field.js',
+	'broccoli-field-table.js',
 	'broccoli-html-editor',
 	'test/main.js'
 ];
@@ -25,15 +25,15 @@ gulp.task("broccoli-html-editor", function() {
 });
 
 
-// broccoli-html-editor--table-field.js (frontend) を処理
-gulp.task("broccoli-html-editor--table-field.js", function() {
-	gulp.src(["src/broccoli-html-editor--table-field.js"])
+// broccoli-field-table.js (frontend) を処理
+gulp.task("broccoli-field-table.js", function() {
+	gulp.src(["src/broccoli-field-table.js"])
 		.pipe(plumber())
 		.pipe(browserify({}))
-		.pipe(concat('broccoli-html-editor--table-field.js'))
+		.pipe(concat('broccoli-field-table.js'))
 		.pipe(gulp.dest( './dist/' ))
 		.pipe(gulp.dest( './tests/testdata/htdocs/libs/' ))
-		.pipe(concat('broccoli-html-editor--table-field.min.js'))
+		.pipe(concat('broccoli-field-table.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest( './dist/' ))
 		.pipe(gulp.dest( './tests/testdata/htdocs/libs/' ))
