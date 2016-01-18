@@ -33,7 +33,9 @@ module.exports = function(broccoli){
 				rtn += '<tr><td style="text-align:center;">ダブルクリックして編集してください。</td></tr>';
 			}
 		}
-		setTimeout(function(){ callback(rtn); }, 0);
+		// setTimeout(function(){
+			callback(rtn);
+		// }, 0);
 		return;
 	}
 
@@ -89,7 +91,7 @@ module.exports = function(broccoli){
 		// console.log(data);
 		if( data.resKey ){
 			$excel.html('')
-				.append( $('<button type="button">Excelで編集する</button>')
+				.append( $('<button type="button" class="btn btn-default">Excelで編集する</button>')
 					.attr({
 						'data-excel-resKey': data.resKey
 					})
