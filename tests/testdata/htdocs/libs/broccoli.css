@@ -5177,6 +5177,11 @@
   @media print {
     .broccoli .hidden-print {
       display: none !important; } }
+  .broccoli__user-selectable {
+    user-select: auto;
+    -moz-user-select: auto;
+    -webkit-user-select: auto;
+    -ms-user-select: auto; }
 
 .broccoli--canvas {
   display: block;
@@ -5220,7 +5225,8 @@
         display: none;
         background: #fff;
         border: 1px solid #000;
-        padding: 0; }
+        padding: 0;
+        z-index: 1000; }
         .broccoli--instance-path-view > ul > li ul.broccoli--instance-path-view-children li {
           display: block;
           list-style-type: none;
@@ -5317,6 +5323,30 @@
       box-sizing: border-box;
       clear: both;
       white-space: nowrap; }
+  .broccoli--instance-tree-view [data-broccoli-instance-path] .broccoli--instance-tree-view-fieldname {
+    display: block;
+    border-left: 0.3em solid #d9d9d9;
+    padding-left: 0.5em;
+    margin: 3px 0;
+    font-size: 11px; }
+  .broccoli--instance-tree-view [data-broccoli-instance-path] .broccoli--instance-tree-view-fieldpreview {
+    display: block;
+    height: auto;
+    padding: 2px 5px;
+    overflow: hidden;
+    max-height: 100px;
+    line-height: 1; }
+    .broccoli--instance-tree-view [data-broccoli-instance-path] .broccoli--instance-tree-view-fieldpreview * {
+      margin: 0;
+      padding: 0;
+      font-size: 9px;
+      line-height: 1;
+      list-style-type: none;
+      font-weight: normal;
+      display: inline;
+      color: #999;
+      border: 0 none;
+      background: transparent none; }
 
 .broccoli--panel {
   border-width: 3px !important;
@@ -5405,6 +5435,12 @@
   margin: 1em 5%;
   background: #eef; }
 
+.broccoli--edit-window-builtin-fields-switch:before {
+  content: "─ "; }
+
+.broccoli--edit-window-builtin-fields-switch__on:before {
+  content: "▼ "; }
+
 .broccoli--lightbox {
   position: fixed;
   top: 0;
@@ -5419,6 +5455,58 @@
     background-color: #fff;
     padding: 20px;
     margin: 100px auto; }
+
+.broccoli--module-info-preview {
+  position: fixed;
+  width: 280px;
+  height: 320px;
+  z-index: 10000;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border: 5px solid #999;
+  font-size: 11px;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  word-break: break-all; }
+  .broccoli--module-info-preview .broccoli--module-info-content h1 {
+    font-size: 14px;
+    font-weight: bold; }
+  .broccoli--module-info-preview .broccoli--module-info-content h2 {
+    font-size: 12px;
+    font-weight: bold; }
+  .broccoli--module-info-preview .broccoli--module-info-content h3, .broccoli--module-info-preview .broccoli--module-info-content h4, .broccoli--module-info-preview .broccoli--module-info-content h5, .broccoli--module-info-preview .broccoli--module-info-content h6 {
+    font-size: 11px;
+    font-weight: bold; }
+  .broccoli--module-info-preview .broccoli--module-info-content h1:first-of-type {
+    margin: 0; }
+
+.broccoli--module-info-content-thumb {
+  width: 200px;
+  max-width: 20%;
+  float: right;
+  margin: 0 0 15px 15px; }
+  .broccoli--module-info-content-thumb img {
+    width: 100%; }
+
+.broccoli--module-info-content-pics {
+  clear: both;
+  text-align: center;
+  border-top: 1px solid #bbb;
+  padding: 2em 0;
+  margin: 10px 0; }
+  .broccoli--module-info-content-pics ul {
+    margin: 1em 0;
+    padding: 0; }
+    .broccoli--module-info-content-pics ul li {
+      list-style-type: none;
+      margin: 1em 0;
+      padding: 0; }
+      .broccoli--module-info-content-pics ul li img {
+        width: auto;
+        max-width: 100%;
+        border: 2px solid #999;
+        box-sizing: border-box; }
 
 .broccoli--module-palette ul {
   margin: 0;
@@ -5458,7 +5546,7 @@
   height: 50px;
   border: 1px solid #999;
   text-align: left;
-  padding: 0;
+  padding: 3px;
   margin: 0;
   background-color: #eee;
   font-size: 11px;
@@ -5467,6 +5555,8 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis; }
+  .broccoli--module-palette button:hover {
+    background-color: #ddd; }
 
 .broccoli--module-palette a:before {
   content: "▼"; }

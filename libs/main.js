@@ -241,11 +241,38 @@ module.exports = function(broccoli){
 	/**
 	 * データを複製する
 	 */
-	this.duplicateData = function( data, callback ){
+	this.duplicateData = function( data, callback, resources ){
 		data = JSON.parse( JSON.stringify( data ) );
-		data.resKey = _resMgr.duplicateResource( data.resKey );
-		callback(data);
+		it79.fnc(
+			data,
+			[
+				function(it1, data){
+					_resMgr.addResource( function(newResKey){
+						_resMgr.updateResource( newResKey, resources[data.resKey], function(result){
+							// console.log(newResKey);
+							data.resKey = newResKey;
+							it1.next(data);
+						} );
+					} );
+				} ,
+				function(it1, data){
+					callback(data);
+					it1.next(data);
+				}
+			]
+		);
 		return;
+	}
+
+	/**
+	 * データから使用するリソースのリソースIDを抽出する (Client Side)
+	 */
+	this.extractResourceId = function( data, callback ){
+		callback = callback||function(){};
+		resourceIdList = [];
+		resourceIdList.push(data.resKey);
+		callback(resourceIdList);
+		return this;
 	}
 
 	/**
