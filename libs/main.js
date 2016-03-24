@@ -448,6 +448,14 @@ module.exports = function(broccoli){
 									'--renderer', data.renderer
 								],
 								function(output, error, code){
+									if( code ){
+										console.error('"excel2html.php" convert ERROR (code:'+code+')');
+										console.error('see error message below:', output);
+										var errorMsg = output;
+										output = '<tr><th>"excel2html.php" convert ERROR (code:'+code+')</th></tr>';
+										output += '<tr><td>see error message below:</td></tr>';
+										output += '<tr><td>'+errorMsg+'</td></tr>';
+									}
 									data.output = output;
 									it1.next(data);
 								}
