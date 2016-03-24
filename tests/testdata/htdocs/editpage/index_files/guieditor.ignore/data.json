@@ -15,7 +15,9 @@
         "cell_renderer": "text",
         "renderer": "simplify"
        }
-      }
+      },
+      "anchor": "",
+      "dec": ""
      }
     ]
    }
