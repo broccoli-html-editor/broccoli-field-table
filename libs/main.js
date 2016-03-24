@@ -438,6 +438,38 @@ module.exports = function(broccoli){
 						} ,
 						function(it1, data){
 
+							var eventEndFlg = {};
+							var timeout = {};
+							var doneFlg = false;
+							function receiveCallBack(output, eventName){
+								// node-webkit で、なぜか childProc.spawn の、
+								// stdout.on('data') より先に on('exit') が呼ばれてしまうことがある。
+								// 原因は不明。
+								// 下記は、complete と success の両方が呼ばれるまで待つようにする処理。
+								eventEndFlg[eventName] = true;
+								clearTimeout(timeout);
+								if(doneFlg){
+									return;//もう行っちゃいました。
+								}
+								if( eventName == 'complete' && (eventEndFlg['success'] || eventEndFlg['error']) ){
+									// complete が呼ばれる前に success または error が呼ばれていた場合
+									data.output = output;
+									it1.next(data);
+									return;
+								}
+								if( eventEndFlg['complete'] && (eventName == 'success' || eventName == 'error') ){
+									// complete が既に呼ばれている状態で、success または error が呼ばれた場合
+									data.output = output;
+									it1.next(data);
+									return;
+								}
+								timeout = setTimeout(function(){
+									doneFlg = true;
+									data.output = output;
+									it1.next(data);
+								}, 3000); // 3秒待っても呼ばれなかったら先へ進む
+							}
+
 							nodePhpBin.script(
 								[
 									__dirname+'/php/excel2html.php',
@@ -449,11 +481,13 @@ module.exports = function(broccoli){
 								],
 								{
 									"success": function(output){
-										console.log(output);
+										// console.log(output);
+										receiveCallBack(output, 'success');
 									} ,
 									"error": function(error){
 										console.error('"excel2html.php" convert ERROR');
 										console.error('see error message below:', error);
+										receiveCallBack(error, 'error');
 									} ,
 									"complete": function(output, error, code){
 										if( error || code ){
@@ -466,8 +500,7 @@ module.exports = function(broccoli){
 											output += '<tr><td>'+error+'</td></tr>';
 											output += '<tr><td>'+errorMsg+'</td></tr>';
 										}
-										data.output = output;
-										it1.next(data);
+										receiveCallBack(output, 'complete');
 									}
 								}
 							);
