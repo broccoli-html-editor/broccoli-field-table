@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    $vendorDir . '/tomk79/filesystem/php/filesystem.php',
-    $vendorDir . '/tomk79/request/php/request.php',
-    $vendorDir . '/tomk79/php-excel2html/php/main.php',
+    'dad6284a76da1c8b4594a2bd48cbd3b6' => $vendorDir . '/tomk79/filesystem/php/filesystem.php',
+    '481e289f0f6b58fdfc9be66cb1761f47' => $vendorDir . '/tomk79/request/php/request.php',
+    '21dc5922bae63e253855bcf7e8ed21d7' => $vendorDir . '/tomk79/php-excel2html/php/main.php',
 );

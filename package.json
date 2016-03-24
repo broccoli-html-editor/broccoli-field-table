@@ -27,7 +27,7 @@
     "markdown": "^0.5.0",
     "marked": "0.3.*",
     "mkdirp": "^0.5.1",
-    "node-php-bin": "^0.1.6",
+    "node-php-bin": "*",
     "phpjs": "^1.3.2",
     "twig": "^0.8.2",
     "underscore": "^1.8.3"
