@@ -983,7 +983,7 @@ process.chdir = function (dir) {
 
 },{}],7:[function(require,module,exports){
 /*!
- * jQuery JavaScript Library v2.2.1
+ * jQuery JavaScript Library v2.2.2
  * http://jquery.com/
  *
  * Includes Sizzle.js
@@ -993,7 +993,7 @@ process.chdir = function (dir) {
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2016-02-22T19:11Z
+ * Date: 2016-03-17T17:51Z
  */
 
 (function( global, factory ) {
@@ -1049,7 +1049,7 @@ var support = {};
 
 
 var
-	version = "2.2.1",
+	version = "2.2.2",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -1260,6 +1260,7 @@ jQuery.extend( {
 	},
 
 	isPlainObject: function( obj ) {
+		var key;
 
 		// Not plain objects:
 		// - Any object or value whose internal [[Class]] property is not "[object Object]"
@@ -1269,14 +1270,18 @@ jQuery.extend( {
 			return false;
 		}
 
+		// Not own constructor property must be Object
 		if ( obj.constructor &&
-				!hasOwn.call( obj.constructor.prototype, "isPrototypeOf" ) ) {
+				!hasOwn.call( obj, "constructor" ) &&
+				!hasOwn.call( obj.constructor.prototype || {}, "isPrototypeOf" ) ) {
 			return false;
 		}
 
-		// If the function hasn't returned already, we're confident that
-		// |obj| is a plain object, created by {} or constructed with new Object
-		return true;
+		// Own properties are enumerated firstly, so to speed up,
+		// if last one is own, then all properties are own
+		for ( key in obj ) {}
+
+		return key === undefined || hasOwn.call( obj, key );
 	},
 
 	isEmptyObject: function( obj ) {
@@ -8309,6 +8314,12 @@ jQuery.extend( {
 	}
 } );
 
+// Support: IE <=11 only
+// Accessing the selectedIndex property
+// forces the browser to respect setting selected
+// on the option
+// The getter ensures a default option is selected
+// when in an optgroup
 if ( !support.optSelected ) {
 	jQuery.propHooks.selected = {
 		get: function( elem ) {
@@ -8317,6 +8328,16 @@ if ( !support.optSelected ) {
 				parent.parentNode.selectedIndex;
 			}
 			return null;
+		},
+		set: function( elem ) {
+			var parent = elem.parentNode;
+			if ( parent ) {
+				parent.selectedIndex;
+
+				if ( parent.parentNode ) {
+					parent.parentNode.selectedIndex;
+				}
+			}
 		}
 	};
 }
@@ -8511,7 +8532,8 @@ jQuery.fn.extend( {
 
 
 
-var rreturn = /\r/g;
+var rreturn = /\r/g,
+	rspaces = /[\x20\t\r\n\f]+/g;
 
 jQuery.fn.extend( {
 	val: function( value ) {
@@ -8587,9 +8609,15 @@ jQuery.extend( {
 		option: {
 			get: function( elem ) {
 
-				// Support: IE<11
-				// option.value not trimmed (#14858)
-				return jQuery.trim( elem.value );
+				var val = jQuery.find.attr( elem, "value" );
+				return val != null ?
+					val :
+
+					// Support: IE10-11+
+					// option.text throws exceptions (#14686, #14858)
+					// Strip and collapse whitespace
+					// https://html.spec.whatwg.org/#strip-and-collapse-whitespace
+					jQuery.trim( jQuery.text( elem ) ).replace( rspaces, " " );
 			}
 		},
 		select: {
@@ -8642,7 +8670,7 @@ jQuery.extend( {
 				while ( i-- ) {
 					option = options[ i ];
 					if ( option.selected =
-							jQuery.inArray( jQuery.valHooks.option.get( option ), values ) > -1
+						jQuery.inArray( jQuery.valHooks.option.get( option ), values ) > -1
 					) {
 						optionSet = true;
 					}
@@ -10337,18 +10365,6 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 
 
-// Support: Safari 8+
-// In Safari 8 documents created via document.implementation.createHTMLDocument
-// collapse sibling forms: the second one becomes a child of the first one.
-// Because of that, this security measure has to be disabled in Safari 8.
-// https://bugs.webkit.org/show_bug.cgi?id=137337
-support.createHTMLDocument = ( function() {
-	var body = document.implementation.createHTMLDocument( "" ).body;
-	body.innerHTML = "<form></form><form></form>";
-	return body.childNodes.length === 2;
-} )();
-
-
 // Argument "data" should be string of html
 // context (optional): If specified, the fragment will be created in this context,
 // defaults to document
@@ -10361,12 +10377,7 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 		keepScripts = context;
 		context = false;
 	}
-
-	// Stop scripts or inline event handlers from being executed immediately
-	// by using document.implementation
-	context = context || ( support.createHTMLDocument ?
-		document.implementation.createHTMLDocument( "" ) :
-		document );
+	context = context || document;
 
 	var parsed = rsingleTag.exec( data ),
 		scripts = !keepScripts && [];
@@ -10836,7 +10847,7 @@ module.exports = new (function(){
 				phpBin = 'php';
 				phpIni = null;
 			}else{
-				phpBin = fs.realpathSync( __dirname+'/../bin/'+_platform+'/'+(_platform == 'win32'?'5.6.8':'5.6.7')+'/php'+(_platform == 'win32'?'.exe':'') );
+				phpBin = fs.realpathSync( __dirname+'/../bin/'+_platform+'/'+(_platform == 'win32'?'5.6.8':'5.6.8')+'/php'+(_platform == 'win32'?'.exe':'') );
 				phpIni = fs.realpathSync( __dirname+'/../bin/'+_platform+'/php.ini' );
 			}
 			if( _platform == 'win32' ){
@@ -10846,11 +10857,16 @@ module.exports = new (function(){
 				]);
 			}
 
-			if(options.bin){
+			if(typeof(options.bin) == typeof('')){
 				phpBin = options.bin;
 			}
-			if(options.ini){
+			if(options.ini === null){
 				phpPresetCmdOptions = [];// windows向けの -d オプションを削除する
+				phpExtensionDir = null;// ExtensionDir も削除
+				phpIni = null;// php.ini のパスも削除
+			}else if(typeof(options.ini) == typeof('')){
+				phpPresetCmdOptions = [];// windows向けの -d オプションを削除する
+				phpExtensionDir = null;// ExtensionDir も削除
 				phpIni = options.ini;
 			}
 
@@ -10916,8 +10932,24 @@ module.exports = new (function(){
 		 */
 		phpAgent.prototype.script = function(cliParams, options, cb){
 			cb = arguments[arguments.length-1];
-			if( typeof(cb) !== typeof(function(){}) ){cb = function(){};}
+			var scriptOptions = {};
+			var cbSuccess = function(){};
+			var cbError = function(){};
+			if( typeof(cb) === typeof({}) ){
+				scriptOptions = cb;
+				cb = scriptOptions.complete || function(){};
+				cbSuccess = scriptOptions.success || function(){};
+				cbError = scriptOptions.error || function(){};
+				// console.log(cb);
+				// console.log(scriptOptions);
+			}
+			if( typeof(cb) !== typeof(function(){}) ){
+				cb = function(){};
+			}
 			options = options || {};
+			if(arguments.length < 2){
+				options = {};
+			}
 			if( typeof(options) !== typeof({}) ){
 				options = {};
 			}
@@ -10929,9 +10961,11 @@ module.exports = new (function(){
 			var data = '';
 			var error = '';
 			child.stdout.on('data', function( row ){
+				cbSuccess(row.toString());
 				data += row.toString();
 			});
 			child.stderr.on('data', function( err ){
+				cbError(err.toString());
 				data += err.toString();
 				error += err.toString();
 			});
