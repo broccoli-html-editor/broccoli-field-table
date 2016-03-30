@@ -2,6 +2,10 @@
 require_once(__DIR__.'/../../vendor/autoload.php');
 $req = new \tomk79\request();
 
+@ini_set( 'memory_limit' , -1 );
+@error_reporting(E_ERROR | E_PARSE);
+@ini_set( 'display_errors', 1 );
+
 // var_dump($req->get_cli_options());
 // var_dump($req->get_cli_option('--path'));
 
@@ -32,6 +36,6 @@ if( !strlen($bin) ){
 }
 
 $excel2html = new \tomk79\excel2html\main($path_xlsx);
-$val = @$excel2html->get_html($options);
+$val = $excel2html->get_html($options);
 print $val;
 exit;
