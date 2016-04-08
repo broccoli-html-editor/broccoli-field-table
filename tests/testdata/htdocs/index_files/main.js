@@ -88,31 +88,68 @@ module.exports = function(broccoli){
 		// if( typeof(data.original) !== typeof({}) ){ data.original = {}; }
 		var res = _resMgr.getResource( data.resKey );
 
+		var appMode = broccoli.getAppMode();
 		var $excel = $('<div data-excel-info>');
 		rtn.append( $excel );
 		// console.log(data);
+
 		if( data.resKey ){
-			$excel.html('')
-				.append( $('<button type="button" class="btn btn-default">Excelで編集する</button>')
-					.attr({
-						'data-excel-resKey': data.resKey
-					})
-					.click(function(){
-						var resKey = $(this).attr('data-excel-resKey');
-						_this.callGpi(
-							{
-								'api': 'openOuternalEditor',
-								'data': {
-									'resKey': resKey
+
+			if( appMode == 'desktop' ){
+				// desktop版
+				$excel.html('')
+					.append( $('<button type="button" class="btn btn-default">Excelで編集する</button>')
+						.attr({
+							'data-excel-resKey': data.resKey
+						})
+						.click(function(){
+							var resKey = $(this).attr('data-excel-resKey');
+							_this.callGpi(
+								{
+									'api': 'openOuternalEditor',
+									'data': {
+										'resKey': resKey
+									}
+								} ,
+								function(output){
+									if(!output.result){
+										alert('失敗しました。'+"\n"+output.message);
+									}
+									return;
 								}
-							} ,
-							function(output){
-								return;
-							}
-						);
-					})
-				)
-			;
+							);
+						})
+					)
+				;
+
+			}else{
+				// Web版
+				$excel.html('')
+					.append( $('<button type="button" class="btn btn-default">ダウンロードする</button>')
+						.attr({
+							'data-excel-resKey': data.resKey
+						})
+						.click(function(){
+							var resKey = $(this).attr('data-excel-resKey');
+							_this.callGpi(
+								{
+									'api': 'getBase64',
+									'data': {
+										'resKey': resKey
+									}
+								} ,
+								function(base64){
+									// console.log(base64);
+									var dataUri = 'data:application/octet-stream;base64,'+base64;
+									// console.log(dataUri);
+									window.location.href = dataUri;
+									return;
+								}
+							);
+						})
+					)
+				;
+			}
 		}
 
 		rtn.append( $('<input>')
@@ -408,6 +445,17 @@ module.exports = function(broccoli){
 					options.data,
 					[
 						function(it1, data){
+							var appMode = broccoli.getAppMode();
+							// console.log(appMode);
+							if( appMode != 'desktop' ){
+								var message = 'appModeが不正です。';
+								// console.log( message );
+								callback({'result':false, 'message': message});
+								return;
+							}
+							it1.next(data);
+						} ,
+						function(it1, data){
 							_resMgr.getResourceOriginalRealpath( data.resKey, function(realpath){
 								// console.log(realpath);
 								data.realpath = realpath;
@@ -420,11 +468,18 @@ module.exports = function(broccoli){
 							it1.next(data);
 						} ,
 						function(it1, data){
-							callback({'result':'OK'});
+							callback({'result':true});
 							it1.next(data);
 						}
 					]
 				);
+				break;
+
+			case 'getBase64':
+				_resMgr.getResource( options.data.resKey, function(resInfo){
+					// console.log(resInfo.base64);
+					callback(resInfo.base64);
+				} );
 				break;
 
 			case 'excel2html':
