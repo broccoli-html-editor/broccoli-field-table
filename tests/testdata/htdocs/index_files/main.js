@@ -98,7 +98,7 @@ module.exports = function(broccoli){
 			if( appMode == 'desktop' ){
 				// desktop版
 				$excel.html('')
-					.append( $('<button type="button" class="btn btn-default">Excelで編集する</button>')
+					.append( $('<button type="button" class="btn btn-default">編集する</button>')
 						.attr({
 							'data-excel-resKey': data.resKey
 						})
@@ -133,16 +133,16 @@ module.exports = function(broccoli){
 							var resKey = $(this).attr('data-excel-resKey');
 							_this.callGpi(
 								{
-									'api': 'getBase64',
+									'api': 'getFileInfo',
 									'data': {
 										'resKey': resKey
 									}
 								} ,
-								function(base64){
-									// console.log(base64);
-									var dataUri = 'data:application/octet-stream;base64,'+base64;
-									// console.log(dataUri);
-									window.location.href = dataUri;
+								function(fileInfp){
+									var anchor = document.createElement("a");
+									anchor.href = 'data:application/octet-stream;base64,'+fileInfp.base64;
+									anchor.download = "bin."+fileInfp.ext;
+									anchor.click();
 									return;
 								}
 							);
@@ -475,10 +475,10 @@ module.exports = function(broccoli){
 				);
 				break;
 
-			case 'getBase64':
+			case 'getFileInfo':
 				_resMgr.getResource( options.data.resKey, function(resInfo){
-					// console.log(resInfo.base64);
-					callback(resInfo.base64);
+					// console.log(resInfo);
+					callback(resInfo);
 				} );
 				break;
 
