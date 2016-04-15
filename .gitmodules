@@ -1,0 +1,3 @@
+[submodule "submodules/broccoli-html-editor"]
+	path = submodules/broccoli-html-editor
+	url = https://github.com/pickles2/broccoli-html-editor.git
