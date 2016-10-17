@@ -1,5 +1,5 @@
 {
-    "name": "tomoya/broccoli-html-editor--table-field",
+    "name": "tomk79/broccoli-field-table",
     "license": "MIT",
     "authors": [
         {
@@ -9,10 +9,10 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "tomk79/filesystem": "1.*",
-        "tomk79/request": "0.1.*",
-        "tomk79/php-excel2html": "0.0.*",
-        "michelf/php-markdown": "1.4.*",
+        "tomk79/filesystem": "^1.0.0",
+        "tomk79/request": "^0.1.0",
+        "tomk79/php-excel2html": "^0.0.6",
+        "michelf/php-markdown": "^1.4.0",
         "leafo/scssphp": "0.1.*"
     }
 }
