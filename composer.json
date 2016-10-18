@@ -11,7 +11,7 @@
         "php": ">=5.4.0",
         "tomk79/filesystem": "^1.0.0",
         "tomk79/request": "^0.1.0",
-        "tomk79/php-excel2html": "^0.0.6",
+        "tomk79/php-excel2html": "^0.0.7",
         "michelf/php-markdown": "^1.4.0",
         "leafo/scssphp": "0.1.*"
     }

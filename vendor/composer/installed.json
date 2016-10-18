@@ -258,17 +258,17 @@
     },
     {
         "name": "tomk79/php-excel2html",
-        "version": "0.0.6",
-        "version_normalized": "0.0.6.0",
+        "version": "0.0.7",
+        "version_normalized": "0.0.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/tomk79/php-excel2html.git",
-            "reference": "e4f133cda3d15169ff9afb1a92263bdd654fd78b"
+            "reference": "70c019f6c8582b15b6114803d5e97f42393baf2d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/tomk79/php-excel2html/zipball/e4f133cda3d15169ff9afb1a92263bdd654fd78b",
-            "reference": "e4f133cda3d15169ff9afb1a92263bdd654fd78b",
+            "url": "https://api.github.com/repos/tomk79/php-excel2html/zipball/70c019f6c8582b15b6114803d5e97f42393baf2d",
+            "reference": "70c019f6c8582b15b6114803d5e97f42393baf2d",
             "shasum": ""
         },
         "require": {
@@ -280,7 +280,7 @@
         "require-dev": {
             "phpunit/phpunit": "4.1.*"
         },
-        "time": "2016-10-17 03:48:14",
+        "time": "2016-10-18 08:03:45",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
