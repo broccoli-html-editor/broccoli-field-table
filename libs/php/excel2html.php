@@ -6,6 +6,21 @@ $req = new \tomk79\request();
 @error_reporting(E_ERROR | E_PARSE);
 @ini_set( 'display_errors', 1 );
 
+if( !extension_loaded( 'mbstring' ) ){
+	trigger_error('mbstring not loaded.');
+}
+if( is_callable('mb_internal_encoding') ){
+	mb_internal_encoding('UTF-8');
+	@ini_set( 'mbstring.internal_encoding' , 'UTF-8' );
+	@ini_set( 'mbstring.http_input' , 'UTF-8' );
+	@ini_set( 'mbstring.http_output' , 'UTF-8' );
+}
+@ini_set( 'default_charset' , 'UTF-8' );
+if( is_callable('mb_detect_order') ){
+	@ini_set( 'mbstring.detect_order' , 'UTF-8,SJIS-win,eucJP-win,SJIS,EUC-JP,JIS,ASCII' );
+	mb_detect_order( 'UTF-8,SJIS-win,eucJP-win,SJIS,EUC-JP,JIS,ASCII' );
+}
+
 // var_dump($req->get_cli_options());
 // var_dump($req->get_cli_option('--path'));
 
