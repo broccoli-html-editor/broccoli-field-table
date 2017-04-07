@@ -21,7 +21,7 @@
         "require-dev": {
             "phpunit/phpunit": "4.1.*"
         },
-        "time": "2015-03-18 15:24:07",
+        "time": "2015-03-18T15:24:07+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -60,7 +60,7 @@
             "ext-xmlwriter": "*",
             "php": ">=5.2.0"
         },
-        "time": "2015-05-01 07:00:55",
+        "time": "2015-05-01T07:00:55+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -122,7 +122,7 @@
             "phpunit/phpunit": "~3.7",
             "squizlabs/php_codesniffer": "~2.3"
         },
-        "time": "2015-08-23 16:12:31",
+        "time": "2015-08-23T16:12:31+00:00",
         "bin": [
             "bin/pscss"
         ],
@@ -179,7 +179,7 @@
             "phpdocumentor/phpdocumentor": "2.8.*",
             "phpunit/phpunit": "4.1.*"
         },
-        "time": "2016-09-05 12:15:50",
+        "time": "2016-09-05T12:15:50+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -204,24 +204,68 @@
         ]
     },
     {
-        "name": "michelf/php-markdown",
-        "version": "1.6.0",
-        "version_normalized": "1.6.0.0",
+        "name": "tomk79/php-excel2html",
+        "version": "0.0.7",
+        "version_normalized": "0.0.7.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/michelf/php-markdown.git",
-            "reference": "156e56ee036505ec637d761ee62dc425d807183c"
+            "url": "https://github.com/tomk79/php-excel2html.git",
+            "reference": "70c019f6c8582b15b6114803d5e97f42393baf2d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/michelf/php-markdown/zipball/156e56ee036505ec637d761ee62dc425d807183c",
-            "reference": "156e56ee036505ec637d761ee62dc425d807183c",
+            "url": "https://api.github.com/repos/tomk79/php-excel2html/zipball/70c019f6c8582b15b6114803d5e97f42393baf2d",
+            "reference": "70c019f6c8582b15b6114803d5e97f42393baf2d",
+            "shasum": ""
+        },
+        "require": {
+            "michelf/php-markdown": "^1.6.0",
+            "php": ">=5.3.0",
+            "phpoffice/phpexcel": "1.8.*",
+            "tomk79/filesystem": "1.*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.1.*"
+        },
+        "time": "2016-10-18T08:03:45+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "php/main.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Tomoya Koyanagi",
+                "email": "tomk79@gmail.com"
+            }
+        ],
+        "description": "Convert Excel(*.xlsx) to HTML table. with PHPExcel."
+    },
+    {
+        "name": "michelf/php-markdown",
+        "version": "1.7.0",
+        "version_normalized": "1.7.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/michelf/php-markdown.git",
+            "reference": "1f51cc520948f66cd2af8cbc45a5ee175e774220"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/michelf/php-markdown/zipball/1f51cc520948f66cd2af8cbc45a5ee175e774220",
+            "reference": "1f51cc520948f66cd2af8cbc45a5ee175e774220",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2015-12-24 01:37:31",
+        "time": "2016-10-29T18:58:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -255,49 +299,5 @@
         "keywords": [
             "markdown"
         ]
-    },
-    {
-        "name": "tomk79/php-excel2html",
-        "version": "0.0.7",
-        "version_normalized": "0.0.7.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/tomk79/php-excel2html.git",
-            "reference": "70c019f6c8582b15b6114803d5e97f42393baf2d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/tomk79/php-excel2html/zipball/70c019f6c8582b15b6114803d5e97f42393baf2d",
-            "reference": "70c019f6c8582b15b6114803d5e97f42393baf2d",
-            "shasum": ""
-        },
-        "require": {
-            "michelf/php-markdown": "^1.6.0",
-            "php": ">=5.3.0",
-            "phpoffice/phpexcel": "1.8.*",
-            "tomk79/filesystem": "1.*"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "4.1.*"
-        },
-        "time": "2016-10-18 08:03:45",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "files": [
-                "php/main.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Tomoya Koyanagi",
-                "email": "tomk79@gmail.com"
-            }
-        ],
-        "description": "Convert Excel(*.xlsx) to HTML table. with PHPExcel."
     }
 ]
