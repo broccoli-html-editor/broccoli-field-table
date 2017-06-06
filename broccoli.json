@@ -1,0 +1,11 @@
+{
+    "name": "Table Field",
+    "type": "field",
+    "backend": {
+        "require": "libs/main.js"
+    },
+    "frontend": {
+        "file" : "dist/broccoli-field-table.min.js",
+        "function" : "window.BroccoliFieldTable"
+    }
+}

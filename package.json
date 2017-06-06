@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pickles2/broccoli-field-table.git"
+    "url": "git+https://github.com/broccoli-html-editor/broccoli-field-table.git"
   },
   "author": "Tomoya Koyanagi",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pickles2/broccoli-field-table/issues"
+    "url": "https://github.com/broccoli-html-editor/broccoli-field-table/issues"
   },
-  "homepage": "https://github.com/pickles2/broccoli-field-table#readme",
+  "homepage": "https://github.com/broccoli-html-editor/broccoli-field-table#readme",
   "dependencies": {
     "cheerio": "^0.19.0",
     "desktop-utils": "git://github.com/tomk79/node-desktop-utils.git",
@@ -35,7 +35,7 @@
   "devDependencies": {
     "biflora": "0.0.1-alpha.1",
     "bootstrap": "^3.3.5",
-    "broccoli-html-editor": "0.1.0-beta.7",
+    "broccoli-html-editor": "git://github.com/broccoli-html-editor/broccoli-html-editor.git",
     "gulp": "^3.8.10",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-browserify": "^0.5.1",
