@@ -8,11 +8,15 @@ class ComposerStaticInit3169bd4056e0da23f02adc3be096611d
 {
     public static $files = array (
         'dad6284a76da1c8b4594a2bd48cbd3b6' => __DIR__ . '/..' . '/tomk79/filesystem/php/filesystem.php',
-        '481e289f0f6b58fdfc9be66cb1761f47' => __DIR__ . '/..' . '/tomk79/request/php/request.php',
         '21dc5922bae63e253855bcf7e8ed21d7' => __DIR__ . '/..' . '/tomk79/php-excel2html/php/main.php',
+        '481e289f0f6b58fdfc9be66cb1761f47' => __DIR__ . '/..' . '/tomk79/request/php/request.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'M' => 
+        array (
+            'Michelf\\' => 8,
+        ),
         'L' => 
         array (
             'Leafo\\ScssPhp\\' => 14,
@@ -20,6 +24,10 @@ class ComposerStaticInit3169bd4056e0da23f02adc3be096611d
     );
 
     public static $prefixDirsPsr4 = array (
+        'Michelf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/michelf/php-markdown/Michelf',
+        ),
         'Leafo\\ScssPhp\\' => 
         array (
             0 => __DIR__ . '/..' . '/leafo/scssphp/src',
@@ -32,13 +40,6 @@ class ComposerStaticInit3169bd4056e0da23f02adc3be096611d
             'PHPExcel' => 
             array (
                 0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
-            ),
-        ),
-        'M' => 
-        array (
-            'Michelf' => 
-            array (
-                0 => __DIR__ . '/..' . '/michelf/php-markdown',
             ),
         ),
     );
