@@ -12,6 +12,22 @@ $ npm install broccoli-field-table --save
 ※ 設定手順はTBD
 
 
+## 更新履歴 - Change log
+
+### broccoli-field-table v0.1.0 (2018年6月15日)
+
+- オプション付きの呼び出し方法を追加。phpのバイナリのパスを設定できるようになった。
+- CSVファイルの変換時に文字化けすることがある問題を修正
+
+### broccoli-field-table v0.1.0-beta.2 (2016年4月15日)
+
+- broccoli-html-editor のウェブモードに対応。ウェブモードの場合に、アップ済みファイルを直接開かずダウンロードさせるようになった。
+- 特定の環境下で、変換後のHTMLソースを受け取れないことがある問題を修正
+
+### broccoli-field-table v0.1.0-beta.1 (2016年3月24日)
+
+- 初回リリース。
+
 ## ライセンス - License
 
 MIT License
