@@ -1,91 +1,67 @@
 <?php
-var assert = require('assert');
-var path = require('path');
-var fs = require('fs');
-var phpjs = require('phpjs');
-var Promise = require("es6-promise").Promise;
-var Broccoli = require('broccoli-html-editor');
+/**
+ * test for pickles2/lib-px2-contents-editor
+ */
+class mainTest extends PHPUnit_Framework_TestCase{
+	private $fs;
 
-function makeDefaultBroccoli(callback){
-	var broccoli = new Broccoli();
-	broccoli.init(
-		{
-			'paths_module_template':{
-				'PlainHTMLElements': '../PlainHTMLElements/',
-				'testMod1': '../modules1/'
-			},
-			'documentRoot': path.resolve(__dirname, 'testdata/htdocs/')+'/',
-			'pathHtml': '/test1/test1.html',
-			'pathResourceDir': '/test1/test1_files/resources/',
-			'realpathDataDir': path.resolve(__dirname, 'testdata/htdocs/test1/test1_files/guieditor.ignore/')+'/' ,
-			'customFields': {
-				'table': require('./../libs/main.js')
-			}
-		},
-		function(){
-			callback(broccoli);
-		}
-	);
-	return;
+	public function setup(){
+		mb_internal_encoding('UTF-8');
+		require_once(__DIR__.'/php_test_helper/helper.php');
+	}
+
+
+	/**
+	 * 普通にインスタンス化して実行してみるテスト
+	 */
+	public function testStandard(){
+		$broccoli = testHelper::makeDefaultBroccoli();
+		$this->assertTrue( is_object($broccoli) );
+	}
+
+	/**
+	 * ビルドする: テストデータをfinalizeモードでビルドする
+	 */
+	public function testBuildFinalizeMode(){
+		$broccoli = testHelper::makeDefaultBroccoli();
+
+		$data = file_get_contents(__DIR__.'/testdata/htdocs/test1/test1_files/guieditor.ignore/data.json');
+		$data = json_decode($data);
+		// var_dump($data);
+		$html = $broccoli->buildBowl(
+			$data->bowl->main ,
+			array(
+				'mode' => 'finalize'
+			)
+		);
+		file_put_contents(__DIR__.'/testdata/htdocs/test1/test1.html', $html);
+		// var_dump( $html );
+
+		$this->assertTrue( is_string($html) );
+
+	}
+
+	/**
+	 * ビルドする: テストデータをcanvasモードでビルドする
+	 */
+	public function testBuildCanvasMode(){
+		$broccoli = testHelper::makeDefaultBroccoli();
+
+		$data = file_get_contents(__DIR__.'/testdata/htdocs/test1/test1_files/guieditor.ignore/data.json');
+		$data = json_decode($data);
+		// var_dump($data);
+		$html = $broccoli->buildBowl(
+			$data->bowl->main ,
+			array(
+				'mode' => 'canvas'
+			)
+		);
+
+		file_put_contents(__DIR__.'/testdata/htdocs/test1/test1.canvas.html', $html);
+		var_dump($html);
+
+		$this->assertTrue( is_string($html) );
+
+	}
+
 }
-
-describe('インスタンス初期化', function() {
-
-	it("インスタンス初期化", function(done) {
-		this.timeout(60*1000);
-
-		makeDefaultBroccoli( function(broccoli){
-			// console.log(broccoli.options.documentRoot);
-			// console.log(broccoli.realpathHtml);
-			// console.log(broccoli.paths_module_template);
-
-			assert.equal(typeof(broccoli.paths_module_template), typeof({}));
-			assert.equal(broccoli.paths_module_template.testMod1, path.resolve(__dirname,'testdata/modules1/')+'/');
-
-			done();
-		} );
-	});
-
-});
-
-describe('ビルドする', function() {
-
-	it("テストデータをfinalizeモードでビルドする", function(done) {
-		this.timeout(15*1000);
-		makeDefaultBroccoli( function(broccoli){
-			var data = require(__dirname+'/testdata/htdocs/test1/test1_files/guieditor.ignore/data.json');
-			// console.log(data);
-			broccoli.buildBowl(
-				data.bowl.main ,
-				{
-					'mode': 'finalize'
-				} ,
-				function( html, err ){
-					fs.writeFileSync(path.resolve(__dirname, './testdata/htdocs/test1/test1.html'), html);
-					// console.log( html );
-					done();
-				}
-			);
-		} );
-	});
-
-	it("テストデータをcanvasモードでビルドする", function(done) {
-		this.timeout(15*1000);
-		makeDefaultBroccoli( function(broccoli){
-			var data = require(__dirname+'/testdata/htdocs/test1/test1_files/guieditor.ignore/data.json');
-			// console.log(data);
-			broccoli.buildBowl(
-				data.bowl.main ,
-				{
-					'mode': 'canvas'
-				} ,
-				function( html, err ){
-					fs.writeFileSync(path.resolve(__dirname, './testdata/htdocs/test1/test1.canvas.html'), html);
-					// console.log( html );
-					done();
-				}
-			);
-		} );
-	});
-
-});

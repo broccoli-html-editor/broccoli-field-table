@@ -7,6 +7,12 @@
             "email": "tomk79@gmail.com"
         }
     ],
+    "scripts":{
+        "test": [
+            "php ./vendor/phpunit/phpunit/phpunit"
+        ]
+    } ,
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.4.0",
         "tomk79/filesystem": "^1.0.0",
