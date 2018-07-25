@@ -11,15 +11,6 @@ class main extends \broccoliHtmlEditor\fieldBase{
 	}
 
 	/**
-	 * パスから拡張子を取り出して返す
-	 */
-	private function getExtension($path){
-		$ext = preg_replace('/^.*?\.([a-zA-Z0-9\_\-]+)$/s', '$1', $path);
-		$ext = strtolower($ext);
-		return $ext;
-	}
-
-	/**
 	 * データをバインドする
 	 */
 	public function bind( $fieldData, $mode, $mod ){
@@ -43,7 +34,7 @@ class main extends \broccoliHtmlEditor\fieldBase{
 	 * GPI (Server Side)
 	 */
 	public function gpi($options){
-		$_resMgr = $this->broccoli->resourceMgr;
+		$_resMgr = $this->broccoli->resourceMgr();
 
 		switch($options['api']){
 			case 'openOuternalEditor':
@@ -52,10 +43,13 @@ class main extends \broccoliHtmlEditor\fieldBase{
 					$message = 'appModeが不正です。';
 					return array('result' => false, 'message' => $message);
 				}
-				$realpath = $_resMgr->getResourceOriginalRealpath( $data['resKey'] );
-				$data['realpath'] = $realpath;
+				$path_xlsx = $_resMgr->getResourceOriginalRealpath( $options['data']['resKey'] );
 
-				// TODO: 開く処理を追加
+				if( realpath('/') == '/' ){
+					exec('open '.escapeshellarg($path_xlsx).'');
+				}elseif( preg_match( '/^[A-Z]\:\\\\/', realpath('/') ) ){
+					exec('explorer '.escapeshellarg($path_xlsx).'');
+				}
 
 				return array('result' => true);
 				break;
@@ -66,7 +60,7 @@ class main extends \broccoliHtmlEditor\fieldBase{
 				break;
 
 			case 'excel2html':
-				$path_xlsx = $_resMgr->getResourceOriginalRealpath( $data['resKey'] );
+				$path_xlsx = $_resMgr->getResourceOriginalRealpath( $options['data']['resKey'] );
 				$excel2html = new excel2html();
 				$options = array(
 					'header_row' => $options['data']['header_row'] ,
