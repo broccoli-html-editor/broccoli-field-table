@@ -14,9 +14,9 @@ $ npm install broccoli-field-table --save
 
 ## 更新履歴 - Change log
 
-### broccoli-field-table v0.1.1 (リリース日未定)
+### broccoli-field-table v0.2.0 (2018年7月27日)
 
-- ?????????????????
+- broccoli-html-editor のバックエンドPHP化に対応した。
 
 ### broccoli-field-table v0.1.0 (2018年6月15日)
 
