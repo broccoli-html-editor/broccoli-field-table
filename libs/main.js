@@ -441,7 +441,7 @@
 		 */
 		this.gpi = function(options, callback){
 			callback = callback || function(){};
-			var nodePhpBin = require('node-php-bin').get(initOptions.php);
+			var nodePhpBin = require('./node-php-bin.js').get(initOptions.php);
 
 			switch(options.api){
 				case 'openOuternalEditor':

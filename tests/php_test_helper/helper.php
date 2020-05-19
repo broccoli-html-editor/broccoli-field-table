@@ -4,7 +4,7 @@ class testHelper{
 	/**
 	 * $broccoli を生成する
 	 */
-	public function makeDefaultBroccoli(){
+	static public function makeDefaultBroccoli(){
 		$broccoli = new \broccoliHtmlEditor\broccoliHtmlEditor();
 		$broccoli->init(array(
 			'paths_module_template' => array(

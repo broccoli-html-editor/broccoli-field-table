@@ -1,25 +1,20 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');//CSSコンパイラ
-var autoprefixer = require("gulp-autoprefixer");//CSSにベンダープレフィックスを付与してくれる
-var minifyCss = require('gulp-minify-css');//CSSファイルの圧縮ツール
-var uglify = require("gulp-uglify");//JavaScriptファイルの圧縮ツール
-var concat = require('gulp-concat');//ファイルの結合ツール
-var plumber = require("gulp-plumber");//コンパイルエラーが起きても watch を抜けないようになる
-var rename = require("gulp-rename");//ファイル名の置き換えを行う
-var twig = require("gulp-twig");//Twigテンプレートエンジン
-var browserify = require("gulp-browserify");//NodeJSのコードをブラウザ向けコードに変換
-var packageJson = require(__dirname+'/package.json');
-var _tasks = [
-	'broccoli-field-table.js',
-	'broccoli-html-editor',
-	'test/main.js'
-];
+let gulp = require('gulp');
+let sass = require('gulp-sass');//CSSコンパイラ
+let autoprefixer = require("gulp-autoprefixer");//CSSにベンダープレフィックスを付与してくれる
+let minifyCss = require('gulp-minify-css');//CSSファイルの圧縮ツール
+let uglify = require("gulp-uglify");//JavaScriptファイルの圧縮ツール
+let concat = require('gulp-concat');//ファイルの結合ツール
+let plumber = require("gulp-plumber");//コンパイルエラーが起きても watch を抜けないようになる
+let rename = require("gulp-rename");//ファイル名の置き換えを行う
+let twig = require("gulp-twig");//Twigテンプレートエンジン
+let browserify = require("gulp-browserify");//NodeJSのコードをブラウザ向けコードに変換
+let packageJson = require(__dirname+'/package.json');
 
 
 
 // broccoli.js (frontend) を処理
 gulp.task("broccoli-html-editor", function() {
-	gulp.src(["node_modules/broccoli-html-editor/client/dist/*"])
+	return gulp.src(["node_modules/broccoli-html-editor/client/dist/*"])
 		.pipe(gulp.dest( './tests/testdata/htdocs/libs/' ))
 	;
 });
@@ -27,7 +22,7 @@ gulp.task("broccoli-html-editor", function() {
 
 // broccoli-field-table.js (frontend) を処理
 gulp.task("broccoli-field-table.js", function() {
-	gulp.src(["src/broccoli-field-table.js"])
+	return gulp.src(["src/broccoli-field-table.js"])
 		.pipe(plumber())
 		.pipe(browserify({}))
 		.pipe(concat('broccoli-field-table.js'))
@@ -43,7 +38,7 @@ gulp.task("broccoli-field-table.js", function() {
 
 // test/main.js を処理
 gulp.task("test/main.js", function() {
-	gulp.src(["tests/testdata/htdocs/index_files/main.src.js"])
+	return gulp.src(["tests/testdata/htdocs/index_files/main.src.js"])
 		.pipe(plumber())
 		.pipe(browserify({}))
 		.pipe(concat('main.js'))
@@ -51,15 +46,22 @@ gulp.task("test/main.js", function() {
 	;
 });
 
+
+
+let _tasks =  gulp.parallel(
+	'broccoli-field-table.js',
+	'broccoli-html-editor',
+	'test/main.js'
+);
+
 // src 中のすべての拡張子を監視して処理
 gulp.task("watch", function() {
-	gulp.watch(["src/**/*","libs/**/*","tests/testdata/htdocs/index_files/main.src.js"], _tasks);
-
 	var svrCtrl = require( './tests/biflora/serverCtrl.js' );
 	svrCtrl.boot(function(){
 		require('child_process').spawn('open',[svrCtrl.getUrl()]);
 	});
 
+	return gulp.watch(["src/**/*","libs/**/*","tests/testdata/htdocs/index_files/main.src.js"], _tasks);
 });
 
 // src 中のすべての拡張子を処理(default)
