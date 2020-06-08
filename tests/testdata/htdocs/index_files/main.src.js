@@ -6,30 +6,38 @@
 window.main = new (function(){
 	var _this = this;
 	var it79 = require('iterate79');
-	var socket = this.socket = window.biflora
-		.createSocket(
-			this,
-			io,
-			{
-				'showSocketTest': function( data, callback, main, socket ){
-					// console.log(data);
-					// alert(data.message);
-					// console.log(callback);
-					callback(data);
-					return;
+	var socket;
+	if(window.biflora){
+		socket = this.socket = window.biflora
+			.createSocket(
+				this,
+				io,
+				{
+					'showSocketTest': function( data, callback, main, socket ){
+						// console.log(data);
+						// alert(data.message);
+						// console.log(callback);
+						callback(data);
+						return;
+					}
 				}
-			}
-		)
-	;
+			)
+		;
+	}
+	var serverType = 'biflora';
 
 	// broccoli をインスタンス化
 	var broccoli = new Broccoli();
 	this.broccoli = window.broccoli = broccoli;
 
-	this.init = function(callback){
+	this.init = function(options, callback){
 		callback = callback||function(){};
+		options = options||{};
 		// this.socketTest();
 		// broccoli を初期化
+		if(options.serverType){
+			serverType = options.serverType;
+		}
 		broccoli.init(
 			{
 				'elmCanvas': $('.canvas').get(0),
@@ -37,24 +45,55 @@ window.main = new (function(){
 				'contents_area_selector': '[data-contents]',
 				'contents_bowl_name_by': 'data-contents',
 				'customFields': {
-					'table': require('./../../../../libs/main.js')
+					'table': window.BroccoliFieldTable
 				},
 				'gpiBridge': function(api, options, callback){
 					// General Purpose Interface Bridge
-					socket.send(
-						'broccoli',
-						{
-							'api': 'gpiBridge' ,
-							'bridge': {
-								'api': api ,
-								'options': options
+					console.info('=----= GPI Request =----=', api, options);
+					var millitime = (new Date()).getTime();
+
+					if(serverType == 'biflora'){
+						socket.send(
+							'broccoli',
+							{
+								'api': 'gpiBridge' ,
+								'bridge': {
+									'api': api ,
+									'options': options
+								}
+							} ,
+							function(rtn){
+								console.info('-- GPI result', (new Date()).getTime() - millitime, rtn);
+								callback(rtn);
 							}
-						} ,
-						function(rtn){
-							// console.log(rtn);
-							callback(rtn);
-						}
-					);
+						);
+					}else if(serverType == 'php'){
+						var res;
+						$.ajax({
+							"url": "./_api.php",
+							"method": "post",
+							"data":{
+								'api': api ,
+								'options': JSON.stringify(options)
+							},
+							"success": function(data){
+								// console.log(data);
+								try{
+									res = JSON.parse(data);
+								}catch(e){
+									console.error(e, data);
+								}
+								// console.log(res);
+							},
+							"error": function(error){
+								console.error(error);
+							},
+							"complete": function(){
+								console.info('-- GPI result', (new Date()).getTime() - millitime, res);
+								callback(res);
+							}
+						});
+					}
 					return;
 				}
 			} ,
