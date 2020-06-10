@@ -26,7 +26,7 @@
         "php": ">=5.4.0",
         "tomk79/filesystem": "^1.0",
         "tomk79/request": "^1.0",
-        "tomk79/php-excel2html": "^0.0.7",
+        "tomk79/php-excel2html": "^0.0.7||^0.1.0",
         "michelf/php-markdown": ">=1.8",
         "leafo/scssphp": ">=0.7.6"
     },
