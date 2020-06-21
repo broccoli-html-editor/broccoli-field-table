@@ -22,13 +22,14 @@
         "process-timeout": 0
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=5.4.0",
-        "tomk79/filesystem": "^1.0",
-        "tomk79/request": "^1.0",
-        "tomk79/php-excel2html": "^0.0.8||^0.1.0",
-        "michelf/php-markdown": ">=1.8",
-        "leafo/scssphp": ">=0.7.6"
+        "tomk79/filesystem": "~1.0",
+        "tomk79/request": "~1.0",
+        "tomk79/php-excel2html": "^0.0.8||~0.1",
+        "michelf/php-markdown": "~1.8",
+        "leafo/scssphp": "~0.7"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.1.0",
