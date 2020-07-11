@@ -18,7 +18,7 @@ class main extends \broccoliHtmlEditor\fieldBase{
 			$fieldData = array();
 		}
 		$rtn = '';
-		if( $fieldData['output'] ){
+		if( array_key_exists('output', $fieldData) && $fieldData['output'] ){
 			$rtn .= $fieldData['output'];
 		}
 
