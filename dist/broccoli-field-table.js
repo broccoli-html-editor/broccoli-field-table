@@ -24401,6 +24401,10 @@ module.exports = phpjs;
 						"type":"number",
 						"value":data.header_row
 					})
+					.addClass('px2-input')
+					.css({
+						'width': '6em'
+					})
 				)
 			);
 			rtn.append( $('<div>')
@@ -24410,6 +24414,10 @@ module.exports = phpjs;
 						"name":mod.name+':header_col' ,
 						"type":"number",
 						"value":data.header_col
+					})
+					.addClass('px2-input')
+					.css({
+						'width': '6em'
 					})
 				)
 			);

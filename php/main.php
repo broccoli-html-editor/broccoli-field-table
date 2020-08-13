@@ -55,7 +55,7 @@ class main extends \broccoliHtmlEditor\fieldBase{
 				break;
 
 			case 'getFileInfo':
-				$resInfo = $_resMgr.getResource( $options['data']['resKey'] );
+				$resInfo = $_resMgr->getResource( $options['data']['resKey'] );
 				return $resInfo;
 				break;
 
