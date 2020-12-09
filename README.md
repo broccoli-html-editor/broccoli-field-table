@@ -14,7 +14,7 @@ $ npm install broccoli-field-table --save
 
 ## 更新履歴 - Change log
 
-### broccoli-field-table v0.2.3 (リリース日未定)
+### broccoli-field-table v0.2.3 (2020年12月10日)
 
 - データに `output` が含まれていない場合にエラーが起きる不具合を修正。
 - ウェブモードで、登録済みのエクセルファイルをダウンロードできない不具合を修正。
