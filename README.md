@@ -14,6 +14,10 @@ $ npm install broccoli-field-table --save
 
 ## 更新履歴 - Change log
 
+### broccoli-field-table v0.2.4 (リリース日未定)
+
+- 内部コードの細かい修正。
+
 ### broccoli-field-table v0.2.3 (2020年12月10日)
 
 - データに `output` が含まれていない場合にエラーが起きる不具合を修正。
