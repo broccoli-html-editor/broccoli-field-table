@@ -50,6 +50,10 @@ gulp.task("broccoli-field-table.js", function() {
 		module:{
 			rules:[
 				{
+					test: /\.twig$/,
+					use: ['twig-loader']
+				},
+				{
 					test:/\.html$/,
 					use:['html-loader']
 				}
@@ -77,6 +81,10 @@ gulp.task("test/main.js", function() {
 		},
 		module:{
 			rules:[
+				{
+					test: /\.twig$/,
+					use: ['twig-loader']
+				},
 				{
 					test:/\.html$/,
 					use:['html-loader']
