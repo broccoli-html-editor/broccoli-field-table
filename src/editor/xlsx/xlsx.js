@@ -1,5 +1,14 @@
 module.exports = function(broccoli, main, editor, mod, data, elm){
 
+	/**
+	 * パスから拡張子を取り出して返す
+	 */
+	function getExtension(path){
+		var ext = path.replace( new RegExp('^.*?\.([a-zA-Z0-9\_\-]+)$'), '$1' );
+		ext = ext.toLowerCase();
+		return ext;
+	}
+
     this.init = function( callback ){
         var _this = this;
         if( typeof(data) !== typeof({}) ){ data = {}; }
@@ -14,13 +23,11 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
             modName: mod.name,
             appMode: appMode,
             resKey: data.resKey,
+            data: data,
         }) );
 
         var $excel = $rtn.find('div[data-excel-info]');
-
-
         if( data.resKey ){
-
             if( appMode == 'desktop' ){
                 // desktop版
                 $excel.find('button')
@@ -113,6 +120,19 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
         // セルの表現方法
         $rtn.find('input[name="'+mod.name+'__cell_renderer"][value="'+data.cell_renderer+'"]').attr({'checked':'checked'});
 
+        // 編集方法
+        $rtn.find('input[name="'+mod.name+'__editor"]').val( data.editor );
+
+        // HTML直接編集モードへ移行する
+        $rtn.find('.broccoli-field-table__change-to-html-mode')
+            .on('click', function(){
+                if( !confirm('一度HTML編集に切り替えると、Excel(またはCSV)ファイルの読み込みに戻すことはできません。HTML編集モードに切り替えますか？') ){
+                    return false;
+                }
+                data.editor = 'html';
+                editor.init(function(){});
+            })
+        ;
 
         $(elm).html($rtn);
 

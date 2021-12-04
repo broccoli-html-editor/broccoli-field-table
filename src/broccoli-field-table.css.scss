@@ -2,4 +2,11 @@
 	@import "../node_modules/px2style/dist/px2style.css";
 
 	display: block;
+
+	&__html-editor {
+		textarea.px2-input {
+			width: 100% !important;
+			height: 480px !important;
+		}
+	}
 }

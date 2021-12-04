@@ -1,4 +1,5 @@
 <div class="broccoli-field-table">
+    <input type="hidden" name="{{ modName }}__editor" value="" />
 
     <div data-excel-info="">
         {% if resKey %}
@@ -32,4 +33,7 @@
         <label><input name="{{ modName }}__cell_renderer" type="radio" value="markdown" /><span>Markdown</span></label>
     </div>
 
+    <div class="px2-text-align-right">
+        <p><a href="javascript:;" class="px2-a broccoli-field-table__change-to-html-mode">HTMLの直接編集に切り替える</a></p>
+    </div>
 </div>
