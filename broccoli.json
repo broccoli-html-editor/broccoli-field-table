@@ -2,10 +2,14 @@
     "name": "Table Field",
     "type": "field",
     "backend": {
+        "class": "broccoliHtmlEditor\\broccoliFieldTable\\main",
         "require": "libs/main.js"
     },
     "frontend": {
-        "file" : "dist/broccoli-field-table.min.js",
+        "dir": "dist/",
+        "file": [
+            "broccoli-field-table.js"
+        ],
         "function" : "window.BroccoliFieldTable"
     }
 }

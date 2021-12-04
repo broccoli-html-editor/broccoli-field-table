@@ -14,6 +14,10 @@ $ npm install broccoli-field-table --save
 
 ## 更新履歴 - Change log
 
+### broccoli-field-table v0.3.0 (リリース日未定)
+
+- その他、ライブラリの更新と内部コードの修正など。
+
 ### broccoli-field-table v0.2.4 (2021年4月23日)
 
 - 内部コードの細かい修正。
@@ -26,6 +30,10 @@ $ npm install broccoli-field-table --save
 ### broccoli-field-table v0.2.2 (2020年6月21日)
 
 - 外部依存パッケージのバージョンを更新。
+
+### broccoli-field-table v0.1.1 (2020年5月19日)
+
+- NodeJS版: 外部依存パッケージのバージョンを更新。
 
 ### broccoli-field-table v0.2.1 (2020年4月4日)
 
