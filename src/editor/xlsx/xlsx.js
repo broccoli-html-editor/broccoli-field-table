@@ -9,6 +9,9 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
 		return ext;
 	}
 
+    /**
+     * 画面を初期化する
+     */
     this.init = function( callback ){
         var _this = this;
         if( typeof(data) !== typeof({}) ){ data = {}; }
@@ -78,6 +81,7 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
         $rtn.find('input[name='+mod.name+']')
             .on('change', function(e){
                 var fileInfo = e.target.files[0];
+                broccoli.px2style.loading();
 
                 function readSelectedLocalFile(fileInfo, callback){
                     var reader = new FileReader();
@@ -103,8 +107,15 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
                                 })(dataUri)
                             })
                         ;
+                        main.broccoliFieldTable_parseUploadedFileAndGetHtml(data, $(elm), function(output){
+                            data.output = output;
+            	            broccoli.px2style.closeLoading();
+                        });
                     });
+                    return;
                 }
+	            broccoli.px2style.closeLoading();
+                return;
             })
         ;
 

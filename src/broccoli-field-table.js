@@ -2,7 +2,6 @@ window.BroccoliFieldTable = function(broccoli){
 
 	var $ = require('jquery');
 	var it79 = require('iterate79');
-	var php = require('phpjs');
 	var _resMgr = broccoli.resourceMgr;
 
 	/**
@@ -121,88 +120,11 @@ window.BroccoliFieldTable = function(broccoli){
 						it1.next();
 						return;
 					}
-					it79.fnc({},
-						[
-							function(it2){
-								_resMgr.getResource(data.resKey, function(result){
-									if( result === false ){
-										_resMgr.addResource(function(newResKey){
-											data.resKey = newResKey;
-											it2.next(data);
-										});
-										return;
-									}
-									it2.next();
-								});
-							} ,
-							function(it2){
-								_resMgr.getResource(data.resKey, function(res){
-									resInfo = res;
-									it2.next();
-								});
-								return;
-							} ,
-							function(it2){
-								realpathSelected = $dom.find('input[type=file]').val();
-
-								if( realpathSelected ){
-									// NOTE: Excelファイルが選択された場合、
-									// 選択されたファイルの情報を resourceMgr に登録する。
-									resInfo.ext = $dom.find('div[data-excel-info]').attr('data-extension');
-									resInfo.type = $dom.find('div[data-excel-info]').attr('data-mime-type');
-									resInfo.size = $dom.find('div[data-excel-info]').attr('data-size');
-									resInfo.base64 = $dom.find('div[data-excel-info]').attr('data-base64');
-
-									resInfo.isPrivateMaterial = true;
-										// NOTE: リソースファイルの設置は resourceMgr が行っている。
-										// isPrivateMaterial が true の場合、公開領域への設置は行われない。
-
-									_resMgr.updateResource( data.resKey, resInfo, function(){
-										it2.next();
-									} );
-									return ;
-								}else{
-									// NOTE: Excelファイルが選択されていない場合、
-									// 過去に登録済みの bin.xlsx が変更されている可能性があるので、
-									// bin2base64 でJSONを更新しておく。
-									_resMgr.resetBase64FromBin( data.resKey, function(){
-										it2.next();
-									} );
-									return ;
-								}
-								it2.next();
-								return ;
-							} ,
-							// function(it2){
-							// 	// NOTE:
-							// 	// ☓ここで一旦保存しないと、古いデータで変換してしまう。
-							// 	// ○ここで一旦保存しちゃうと、addResource() した新しいデータが削除されてしまう。
-							// 	_resMgr.save( function(){
-							// 		// var res = _resMgr.getResource( data.resKey );
-							// 		it2.next();
-							// 	} );
-							// } ,
-							function(it2){
-								_this.callGpi(
-									{
-										'api': 'excel2html',
-										'data': data
-									} ,
-									function(output){
-										data.output = output;
-										if(!php.is_string(data.output)){
-											data.output = '';
-										}
-										it2.next();
-										return;
-									}
-								);
-							} ,
-							function(){
-								it1.next();
-							} ,
-						]
-					);
+					_this.broccoliFieldTable_parseUploadedFileAndGetHtml(data, $dom, function(output){
+						data.output = output;
+						it1.next();
+					});
+					return;
 				} ,
 				function(it1){
 					callback(data);
@@ -213,4 +135,100 @@ window.BroccoliFieldTable = function(broccoli){
 
 		return;
 	} // this.saveEditorContent()
+
+
+	/**
+	 * アップロードファイルを解析して生成されたHTMLを取得する
+	 */
+	this.broccoliFieldTable_parseUploadedFileAndGetHtml = function( data, $dom, callback ){
+		var _this = this;
+		var rtn = '';
+		var resInfo,
+			realpathSelected;
+
+		it79.fnc({},
+			[
+				function(it2){
+					_resMgr.getResource(data.resKey, function(result){
+						if( result === false ){
+							_resMgr.addResource(function(newResKey){
+								data.resKey = newResKey;
+								it2.next();
+							});
+							return;
+						}
+						it2.next();
+					});
+				} ,
+				function(it2){
+					_resMgr.getResource(data.resKey, function(res){
+						resInfo = res;
+						it2.next();
+					});
+					return;
+				} ,
+				function(it2){
+					realpathSelected = $dom.find('input[type=file]').val();
+
+					if( realpathSelected ){
+						// NOTE: Excelファイルが選択された場合、
+						// 選択されたファイルの情報を resourceMgr に登録する。
+						resInfo.ext = $dom.find('div[data-excel-info]').attr('data-extension');
+						resInfo.type = $dom.find('div[data-excel-info]').attr('data-mime-type');
+						resInfo.size = $dom.find('div[data-excel-info]').attr('data-size');
+						resInfo.base64 = $dom.find('div[data-excel-info]').attr('data-base64');
+
+						resInfo.isPrivateMaterial = true;
+							// NOTE: リソースファイルの設置は resourceMgr が行っている。
+							// isPrivateMaterial が true の場合、公開領域への設置は行われない。
+
+						_resMgr.updateResource( data.resKey, resInfo, function(){
+							it2.next();
+						} );
+						return ;
+					}else{
+						// NOTE: Excelファイルが選択されていない場合、
+						// 過去に登録済みの bin.xlsx が変更されている可能性があるので、
+						// bin2base64 でJSONを更新しておく。
+						_resMgr.resetBase64FromBin( data.resKey, function(){
+							it2.next();
+						} );
+						return ;
+					}
+					it2.next();
+					return ;
+				} ,
+				// function(it2){
+				// 	// NOTE:
+				// 	// ☓ここで一旦保存しないと、古いデータで変換してしまう。
+				// 	// ○ここで一旦保存しちゃうと、addResource() した新しいデータが削除されてしまう。
+				// 	_resMgr.save( function(){
+				// 		// var res = _resMgr.getResource( data.resKey );
+				// 		it2.next();
+				// 	} );
+				// } ,
+				function(it2){
+					_this.callGpi(
+						{
+							'api': 'excel2html',
+							'data': data
+						} ,
+						function(output){
+							rtn = output;
+							if( typeof(rtn) !== typeof('') ){
+								rtn = '';
+							}
+							it2.next();
+							return;
+						}
+					);
+				} ,
+				function(){
+					callback( rtn );
+				} ,
+			]
+		);
+		return;
+	}
+
 };
