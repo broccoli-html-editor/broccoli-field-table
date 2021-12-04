@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<title>Broccoli TEST</title>
 		<link rel="stylesheet" href="./index_files/css.css" />
+		<link rel="stylesheet" href="./../../../dist/broccoli-field-table.css" />
 	</head>
 	<body>
 		<div class="instanceTreeView"></div>

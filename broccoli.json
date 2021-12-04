@@ -8,6 +8,7 @@
     "frontend": {
         "dir": "dist/",
         "file": [
+            "broccoli-field-table.css",
             "broccoli-field-table.js"
         ],
         "function" : "window.BroccoliFieldTable"

@@ -1,13 +1,11 @@
 let gulp = require('gulp');
+let webpack = require('webpack');
+let webpackStream = require('webpack-stream');
 let sass = require('gulp-sass');//CSSコンパイラ
 let autoprefixer = require("gulp-autoprefixer");//CSSにベンダープレフィックスを付与してくれる
 let minifyCss = require('gulp-minify-css');//CSSファイルの圧縮ツール
-let uglify = require("gulp-uglify");//JavaScriptファイルの圧縮ツール
-let concat = require('gulp-concat');//ファイルの結合ツール
 let plumber = require("gulp-plumber");//コンパイルエラーが起きても watch を抜けないようになる
 let rename = require("gulp-rename");//ファイル名の置き換えを行う
-let twig = require("gulp-twig");//Twigテンプレートエンジン
-let browserify = require("gulp-browserify");//NodeJSのコードをブラウザ向けコードに変換
 let packageJson = require(__dirname+'/package.json');
 
 
@@ -20,16 +18,48 @@ gulp.task("broccoli-html-editor", function() {
 });
 
 
-// broccoli-field-table.js (frontend) を処理
-gulp.task("broccoli-field-table.js", function() {
-	return gulp.src(["src/broccoli-field-table.js"])
+// src 中の *.css.scss を処理
+gulp.task('.css.scss', function(){
+	return gulp.src("src/**/*.css.scss")
 		.pipe(plumber())
-		.pipe(browserify({}))
-		.pipe(concat('broccoli-field-table.js'))
+		.pipe(sass({
+			"sourceComments": false
+		}))
+		.pipe(autoprefixer())
+		.pipe(rename({
+			extname: '',
+		}))
+		.pipe(minifyCss({compatibility: 'ie8'}))
+		.pipe(rename({
+			extname: '.css'
+		}))
 		.pipe(gulp.dest( './dist/' ))
 		.pipe(gulp.dest( './tests/testdata/htdocs/libs/' ))
-		.pipe(concat('broccoli-field-table.min.js'))
-		.pipe(uglify())
+	;
+});
+
+// broccoli-field-table.js (frontend) を処理
+gulp.task("broccoli-field-table.js", function() {
+	return webpackStream({
+		mode: 'production',
+		entry: "./src/broccoli-field-table.js",
+		devtool: 'source-map',
+		output: {
+			filename: "broccoli-field-table.js"
+		},
+		module:{
+			rules:[
+				{
+					test:/\.html$/,
+					use:['html-loader']
+				}
+			]
+		},
+		externals: {
+			fs: 'commonjs fs',
+		},
+	}, webpack)
+		.pipe(plumber())
 		.pipe(gulp.dest( './dist/' ))
 		.pipe(gulp.dest( './tests/testdata/htdocs/libs/' ))
 	;
@@ -38,10 +68,23 @@ gulp.task("broccoli-field-table.js", function() {
 
 // test/main.js を処理
 gulp.task("test/main.js", function() {
-	return gulp.src(["tests/testdata/htdocs/index_files/main.src.js"])
+	return webpackStream({
+		mode: 'production',
+		entry: "./tests/testdata/htdocs/index_files/main.src.js",
+		devtool: 'source-map',
+		output: {
+			filename: "main.js"
+		},
+		module:{
+			rules:[
+				{
+					test:/\.html$/,
+					use:['html-loader']
+				}
+			]
+		}
+	}, webpack)
 		.pipe(plumber())
-		.pipe(browserify({}))
-		.pipe(concat('main.js'))
 		.pipe(gulp.dest( './tests/testdata/htdocs/index_files/' ))
 	;
 });
@@ -51,6 +94,7 @@ gulp.task("test/main.js", function() {
 let _tasks =  gulp.parallel(
 	'broccoli-field-table.js',
 	'broccoli-html-editor',
+	'.css.scss',
 	'test/main.js'
 );
 
