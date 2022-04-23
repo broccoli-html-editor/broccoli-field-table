@@ -17,14 +17,14 @@
   },
   "homepage": "https://github.com/broccoli-html-editor/broccoli-field-table#readme",
   "dependencies": {
-    "desktop-utils": "git://github.com/tomk79/node-desktop-utils.git",
+    "desktop-utils": "^0.1.2",
     "iterate79": "0.0.1",
     "px2style": "git+https://github.com/pickles2/px2style.git#develop"
   },
   "devDependencies": {
     "biflora": "0.0.1-alpha.1",
     "bootstrap": "^3.3.5",
-    "broccoli-html-editor": "git://github.com/broccoli-html-editor/broccoli-html-editor.git",
+    "broccoli-html-editor": "git+https://github.com/broccoli-html-editor/broccoli-html-editor.git",
     "es6-promise": "^3.0.2",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^2.3.1",

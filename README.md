@@ -14,6 +14,10 @@ $ npm install broccoli-field-table --save
 
 ## 更新履歴 - Change log
 
+### broccoli-field-table v0.3.1 (リリース日未定)
+
+- Fixed: npm: Package repository URL
+
 ### broccoli-field-table v0.3.0 (2022年1月3日)
 
 - HTMLでの直接編集モードに切り替える機能を追加。
