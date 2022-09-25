@@ -31,7 +31,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^4.1.0",
-        "broccoli-html-editor/broccoli-html-editor": "^0.5.2"
+        "broccoli-html-editor/broccoli-html-editor": "~1.0||~0.5.2"
     },
     "autoload": {
         "psr-4": {
