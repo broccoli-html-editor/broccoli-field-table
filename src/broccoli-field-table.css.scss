@@ -1,6 +1,9 @@
 .broccoli-field-table {
 	display: block;
 
+	// table-tag-editor
+	@import "../node_modules/@tomk79/table-tag-editor/src/table-tag-editor";
+
 	&__html-editor {
 		textarea.px2-input {
 			width: 100% !important;

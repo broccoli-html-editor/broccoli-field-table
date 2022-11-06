@@ -11,8 +11,8 @@
 		<div class="canvas" data-broccoli-preview="http://127.0.0.1:8088/tests/testdata/htdocs/editpage/index.html"></div>
 		<div class="palette"></div>
 		<div class="instancePathView"></div>
-		<div class="test_funcs">
-			<ul>
+		<div class="test-funcs">
+			<ul class="px2-horizontal-list">
 				<li><a href="javascript:window.main.reloadBroccoli();">Reload</a></li>
 				<li><a href="javascript:window.main.broccoli.historyBack(function(){alert('history Back done.');});">history Back</a></li>
 				<li><a href="javascript:window.main.broccoli.historyGo(function(){alert('history Go done.');});">history Go</a></li>

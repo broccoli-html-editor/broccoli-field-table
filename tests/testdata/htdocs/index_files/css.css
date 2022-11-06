@@ -21,3 +21,6 @@
     height: 600px;
     overflow: auto;
 }
+.test-funcs {
+    clear: both;
+}

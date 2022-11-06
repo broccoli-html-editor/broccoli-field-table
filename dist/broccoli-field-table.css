@@ -1,1 +1,1 @@
-.broccoli-field-table{display:block}.broccoli-field-table__html-editor textarea.px2-input{height:480px!important;width:100%!important}
+.broccoli-field-table{display:block}.broccoli-field-table .table-tag-editor{display:flex;flex-direction:column}.broccoli-field-table .table-tag-editor+textarea{display:none!important}.broccoli-field-table__html-editor textarea.px2-input{height:480px!important;width:100%!important}

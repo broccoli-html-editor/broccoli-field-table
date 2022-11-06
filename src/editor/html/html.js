@@ -1,4 +1,5 @@
 module.exports = function(broccoli, main, editor, mod, data, elm){
+	var TableTagEditor = require('@tomk79/table-tag-editor');
 
     this.init = function( callback ){
         var _this = this;
@@ -34,6 +35,8 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
         $rtn.find('textarea[name="'+mod.name+'__output"]').val( data.output );
 
         $(elm).html($rtn);
+
+        var tableTagEditor = new TableTagEditor( $rtn.find('textarea[name="'+mod.name+'__output"]') );
 
 
         setTimeout(function(){
