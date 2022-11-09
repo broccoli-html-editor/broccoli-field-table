@@ -11,8 +11,12 @@ window.BroccoliFieldTable = function(broccoli){
 		// InstanceTreeViewで利用する
 		fieldData = fieldData||{};
 		var rtn = '';
-		if( fieldData.output ){
+		if( fieldData.src ){
+			rtn += fieldData.src;
+				// v0.3.0: `output` は `src` に改名されました。
+		}else if( fieldData.output ){
 			rtn += fieldData.output;
+				// v0.3.0: 古いバージョンへの互換性維持のため、 `output` がある場合も想定します。
 		}
 		rtn = $('<table>'+rtn+'</table>');
 
@@ -28,7 +32,7 @@ window.BroccoliFieldTable = function(broccoli){
 		if( typeof(fieldData) !== typeof({}) ){
 			rtn = {
 				"resKey": "",
-				"output": "",
+				"src": "",
 				"header_row": 0,
 				"header_col": 0,
 				"cell_renderer": "text",
@@ -43,6 +47,14 @@ window.BroccoliFieldTable = function(broccoli){
 	 * エディタUIを生成 (Client Side)
 	 */
 	this.mkEditor = function( mod, data, elm, callback ){
+		if( !data.src && data.output ){
+			// v0.3.0: `output` は `src` に改名されました。
+			// 古いバージョンへの互換性維持のため、 `output` がある場合も想定します。
+			data.src = data.output;
+			data.output = undefined;
+			delete(data.output);
+		}
+
 		var Editor = require('./editor/editor.js');
 		var editor = new Editor(broccoli, this, mod, data, elm);
 		editor.init( callback );
@@ -117,12 +129,12 @@ window.BroccoliFieldTable = function(broccoli){
 				} ,
 				function(it1){
 					if( data.editor == 'html' ){
-						data.output = $dom.find('textarea[name="'+mod.name+'__output"]').val();
+						data.src = $dom.find('textarea[name="'+mod.name+'__src"]').val();
 						it1.next();
 						return;
 					}
-					_this.broccoliFieldTable_parseUploadedFileAndGetHtml(data, $dom, function(output){
-						data.output = output;
+					_this.broccoliFieldTable_parseUploadedFileAndGetHtml(data, $dom, function(html){
+						data.src = html;
 						it1.next();
 					});
 					return;
@@ -212,8 +224,8 @@ window.BroccoliFieldTable = function(broccoli){
 							'api': 'excel2html',
 							'data': data
 						} ,
-						function(output){
-							rtn = output;
+						function(result){
+							rtn = result;
 							if( typeof(rtn) !== typeof('') ){
 								rtn = '';
 							}

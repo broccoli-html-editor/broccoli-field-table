@@ -19,7 +19,12 @@
 		this.bind = function( fieldData, mode, mod, callback ){
 			fieldData = fieldData||{};
 			var rtn = '';
-			if( fieldData.output ){
+
+			// v0.3.0: `output` は `src` に改名されました。
+			// 古いバージョンへの互換性維持のため、 `output` がある場合も想定します。
+			if( fieldData.src ){
+				rtn += fieldData.src;
+			}else if( fieldData.output ){
 				rtn += fieldData.output;
 			}
 
@@ -101,7 +106,7 @@
 								var eventEndFlg = {};
 								var timeout = {};
 								var doneFlg = false;
-								function receiveCallBack(output, eventName){
+								function receiveCallBack(src, eventName){
 									// node-webkit で、なぜか childProc.spawn の、
 									// stdout.on('data') より先に on('exit') が呼ばれてしまうことがある。
 									// 原因は不明。
@@ -113,19 +118,19 @@
 									}
 									if( eventName == 'complete' && (eventEndFlg['success'] || eventEndFlg['error']) ){
 										// complete が呼ばれる前に success または error が呼ばれていた場合
-										data.output = output;
+										data.src = src;
 										it1.next(data);
 										return;
 									}
 									if( eventEndFlg['complete'] && (eventName == 'success' || eventName == 'error') ){
 										// complete が既に呼ばれている状態で、success または error が呼ばれた場合
-										data.output = output;
+										data.src = src;
 										it1.next(data);
 										return;
 									}
 									timeout = setTimeout(function(){
 										doneFlg = true;
-										data.output = output;
+										data.src = src;
 										it1.next(data);
 									}, 3000); // 3秒待っても呼ばれなかったら先へ進む
 								}
@@ -140,34 +145,33 @@
 										'--renderer', data.renderer
 									],
 									{
-										"success": function(output){
-											// console.log(output);
-											receiveCallBack(output, 'success');
+										"success": function(src){
+											receiveCallBack(src, 'success');
 										} ,
 										"error": function(error){
 											console.error('"excel2html.php" convert ERROR');
 											console.error('see error message below:', error);
 											receiveCallBack(error, 'error');
 										} ,
-										"complete": function(output, error, code){
+										"complete": function(src, error, code){
 											if( error || code ){
 												console.error('"excel2html.php" convert ERROR (code:'+code+')');
-												console.error('see error message below:', output);
-												var errorMsg = output;
-												output = '';
-												output += '<tr><th>"excel2html.php" convert ERROR (code:'+code+')</th></tr>';
-												output += '<tr><td>see error message below:</td></tr>';
-												output += '<tr><td>'+error+'</td></tr>';
-												output += '<tr><td>'+errorMsg+'</td></tr>';
+												console.error('see error message below:', src);
+												var errorMsg = src;
+												src = '';
+												src += '<tr><th>"excel2html.php" convert ERROR (code:'+code+')</th></tr>';
+												src += '<tr><td>see error message below:</td></tr>';
+												src += '<tr><td>'+error+'</td></tr>';
+												src += '<tr><td>'+errorMsg+'</td></tr>';
 											}
-											receiveCallBack(output, 'complete');
+											receiveCallBack(src, 'complete');
 										}
 									}
 								);
 
 							} ,
 							function(it1, data){
-								callback(data.output);
+								callback(data.src);
 								it1.next(data);
 							}
 						]

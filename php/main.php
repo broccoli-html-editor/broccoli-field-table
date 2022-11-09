@@ -18,7 +18,12 @@ class main extends \broccoliHtmlEditor\fieldBase{
 			$fieldData = array();
 		}
 		$rtn = '';
-		if( array_key_exists('output', $fieldData) && $fieldData['output'] ){
+
+		// v0.3.0: `output` は `src` に改名されました。
+		// 古いバージョンへの互換性維持のため、 `output` がある場合も想定します。
+		if( isset($fieldData['src']) && $fieldData['src'] ){
+			$rtn .= $fieldData['src'];
+		}elseif( isset($fieldData['output']) && $fieldData['output'] ){
 			$rtn .= $fieldData['output'];
 		}
 
@@ -71,9 +76,9 @@ class main extends \broccoliHtmlEditor\fieldBase{
 					'strip_table_tag' => true
 				);
 
-				$output = $excel2html->excel2html($path_xlsx, $options);
+				$html = $excel2html->excel2html($path_xlsx, $options);
 
-				return $output;
+				return $html;
 				break;
 
 			default:

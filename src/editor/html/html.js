@@ -32,7 +32,7 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
         $rtn.find('input[name="'+mod.name+'__editor"]').val( data.editor );
 
         // ソースコード
-        $rtn.find('textarea[name="'+mod.name+'__output"]').val( data.output );
+        $rtn.find('textarea[name="'+mod.name+'__src"]').val( data.src );
 
         // Excel編集モードへ移行する
         $rtn.find('.broccoli-field-table__change-to-xlsx-mode')
@@ -47,7 +47,7 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
 
         $(elm).html($rtn);
 
-        var tableTagEditor = new TableTagEditor( $rtn.find('textarea[name="'+mod.name+'__output"]') );
+        var tableTagEditor = new TableTagEditor( $rtn.find('textarea[name="'+mod.name+'__src"]') );
 
 
         setTimeout(function(){

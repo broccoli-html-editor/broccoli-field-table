@@ -43,9 +43,9 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
                                     'resKey': resKey
                                 }
                             } ,
-                            function(output){
-                                if(!output.result){
-                                    alert('失敗しました。'+"\n"+output.message);
+                            function(result){
+                                if(!result.result){
+                                    alert('失敗しました。'+"\n"+result.message);
                                 }
                                 return;
                             }
@@ -107,8 +107,8 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
                                 })(dataUri)
                             })
                         ;
-                        main.broccoliFieldTable_parseUploadedFileAndGetHtml(data, $(elm), function(output){
-                            data.output = output;
+                        main.broccoliFieldTable_parseUploadedFileAndGetHtml(data, $(elm), function(html){
+                            data.src = html;
             	            broccoli.px2style.closeLoading();
                         });
                     });
