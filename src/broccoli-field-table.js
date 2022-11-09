@@ -27,12 +27,13 @@ window.BroccoliFieldTable = function(broccoli){
 		var rtn = fieldData;
 		if( typeof(fieldData) !== typeof({}) ){
 			rtn = {
-				"resKey":'',
-				"output":"",
-				"header_row":0,
-				"header_col":0,
-				"cell_renderer":'text',
-				"renderer":'simplify',
+				"resKey": "",
+				"output": "",
+				"header_row": 0,
+				"header_col": 0,
+				"cell_renderer": "text",
+				"renderer": "simplify",
+				"editor": "html",
 			};
 		}
 		return rtn;
@@ -185,7 +186,7 @@ window.BroccoliFieldTable = function(broccoli){
 						_resMgr.updateResource( data.resKey, resInfo, function(){
 							it2.next();
 						} );
-						return ;
+						return;
 					}else{
 						// NOTE: Excelファイルが選択されていない場合、
 						// 過去に登録済みの bin.xlsx が変更されている可能性があるので、
@@ -193,10 +194,8 @@ window.BroccoliFieldTable = function(broccoli){
 						_resMgr.resetBase64FromBin( data.resKey, function(){
 							it2.next();
 						} );
-						return ;
+						return;
 					}
-					it2.next();
-					return ;
 				} ,
 				// function(it2){
 				// 	// NOTE:

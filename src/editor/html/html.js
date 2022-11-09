@@ -34,6 +34,17 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
         // ソースコード
         $rtn.find('textarea[name="'+mod.name+'__output"]').val( data.output );
 
+        // Excel編集モードへ移行する
+        $rtn.find('.broccoli-field-table__change-to-xlsx-mode')
+            .on('click', function(){
+                if( !confirm('Excel(またはCSV)ファイルの読み込みに切り替えると、HTML編集モードで編集した内容は失われます。 Excel編集モードに切り替えますか？') ){
+                    return false;
+                }
+                data.editor = 'xlsx';
+                editor.init(function(){});
+            })
+        ;
+
         $(elm).html($rtn);
 
         var tableTagEditor = new TableTagEditor( $rtn.find('textarea[name="'+mod.name+'__output"]') );

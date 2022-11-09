@@ -17,6 +17,7 @@ $ npm install broccoli-field-table --save
 ### broccoli-field-table v0.3.1 (リリース日未定)
 
 - Fixed: npm: Package repository URL
+- デフォルトがHTML編集モードに変更され、Excel編集モードへ移行できるようになった。
 - 内部コードの構成を変更。
 
 ### broccoli-field-table v0.3.0 (2022年1月3日)
