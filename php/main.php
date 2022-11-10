@@ -70,8 +70,8 @@ class main extends \broccoliHtmlEditor\fieldBase{
 				$options = array(
 					'header_row' => $options['data']['header_row'] ,
 					'header_col' => $options['data']['header_col'] ,
-					'renderer' => $options['data']['renderer'] ,
-					'cell_renderer' => $options['data']['cell_renderer'] ,
+					'renderer' => (isset($options['data']['renderer']) ? $options['data']['renderer'] : "simplify") ,
+					'cell_renderer' => (isset($options['data']['cell_renderer']) ? $options['data']['cell_renderer'] : "text") ,
 					'render_cell_width' => true ,
 					'strip_table_tag' => true
 				);

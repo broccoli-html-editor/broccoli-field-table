@@ -118,7 +118,7 @@ window.BroccoliFieldTable = function(broccoli){
 					data.header_row = $dom.find('input[name="'+mod.name+'__header_row"]').val();
 					data.header_col = $dom.find('input[name="'+mod.name+'__header_col"]').val();
 					data.editor = $dom.find('input[name="'+mod.name+'__editor"]').val();
-					if( data.editor == 'html' ){
+					if( !data.editor || data.editor == 'html' ){
 						data.cell_renderer = $dom.find('input[name="'+mod.name+'__cell_renderer"]').val();
 						data.renderer = $dom.find('input[name="'+mod.name+'__renderer"]').val();
 					}else{
@@ -128,7 +128,7 @@ window.BroccoliFieldTable = function(broccoli){
 					it1.next();
 				} ,
 				function(it1){
-					if( data.editor == 'html' ){
+					if( !data.editor || data.editor == 'html' ){
 						data.src = $dom.find('textarea[name="'+mod.name+'__src"]').val();
 						it1.next();
 						return;
