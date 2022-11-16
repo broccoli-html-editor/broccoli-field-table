@@ -19,6 +19,7 @@ $ npm install broccoli-field-table --save
 - Fixed: npm: Package repository URL
 - デフォルトがHTML編集モードに変更され、Excel編集モードへ移行できるようになった。
 - データ構造を変更: `data.output` を `data.src` に改名した。 (ただし後方互換性維持のため、`data.output` にも配慮する)
+- HTML編集モードでビジュアル編集がサポートされるようになった。
 - 内部コードの構成を変更。
 
 ### broccoli-field-table v0.3.0 (2022年1月3日)
