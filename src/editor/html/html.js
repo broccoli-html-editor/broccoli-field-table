@@ -1,5 +1,7 @@
 module.exports = function(broccoli, main, editor, mod, data, elm){
 	var TableTagEditor = require('@tomk79/table-tag-editor');
+	var tableTagEditor;
+
 
 	this.init = function( callback ){
 		var _this = this;
@@ -25,14 +27,15 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
 		$rtn.find('.broccoli-field-table__import-xlsx')
 			.on('click.broccoli-field-table', function(){
 				var importXlsx = new ImportXlsx(broccoli, main, editor, mod, data, elm);
-				importXlsx.init(function(){
+				importXlsx.init(function( htmlSrc ){
+					tableTagEditor.resetValue( htmlSrc );
 				});
 			})
 		;
 
 		$(elm).html($rtn);
 
-		var tableTagEditor = new TableTagEditor( $rtn.find('textarea[name="'+mod.name+'__src"]') );
+		tableTagEditor = new TableTagEditor( $rtn.find('textarea[name="'+mod.name+'__src"]') );
 
 
 		setTimeout(function(){
