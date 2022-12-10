@@ -91,11 +91,53 @@
 					break;
 
 				case 'excel2html':
+					var resKey;
+					var $tmpResInfo;
 					it79.fnc(
 						options.data,
 						[
 							function(it1, data){
-								_resMgr.getResourceOriginalRealpath( data.resKey, function(realpath){
+								if( options.data.resKey ){
+									resKey = options.data.resKey;
+									it1.next(data);
+									return;
+								}else if( isset(options.data.base64) ){
+									it79.fnc({}, [
+										function(it2){
+											_resMgr.addResource(function(res){
+												resKey = res;
+												it2.next();
+											});
+											return;
+										},
+										function(it2){
+											_resMgr.getResource( resKey, function(res){
+												$tmpResInfo = res;
+												$tmpResInfo.ext = options.data.extension;
+												$tmpResInfo.base64 = options.data.base64;
+												it2.next();
+											} );
+											return;
+										},
+										function(it2){
+											_resMgr.updateResource( resKey, $tmpResInfo, function(){
+												it2.next();
+											} );
+											return;
+										},
+										function(){
+											it1.next(data);
+										},
+									]);
+									return;
+								}
+								callback({
+									"result": false,
+								});
+								return;
+							},
+							function(it1, data){
+								_resMgr.getResourceOriginalRealpath( resKey, function(realpath){
 									// console.log(realpath);
 									data.realpath = realpath;
 									it1.next(data);

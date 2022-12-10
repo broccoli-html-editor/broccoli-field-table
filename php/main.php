@@ -65,7 +65,22 @@ class main extends \broccoliHtmlEditor\fieldBase{
 				break;
 
 			case 'excel2html':
-				$path_xlsx = $_resMgr->getResourceOriginalRealpath( $options['data']['resKey'] );
+				$resKey = null;
+				if( isset($options['data']['resKey']) ){
+					$resKey = $options['data']['resKey'];
+				}elseif( isset($options['data']['base64']) ){
+					$resKey = $_resMgr->addResource();
+					$tmpResInfo = $_resMgr->getResource( $resKey );
+					$tmpResInfo->ext = $options['data']['extension'];
+					$tmpResInfo->base64 = $options['data']['base64'];
+					$_resMgr->updateResource( $resKey, $tmpResInfo );
+				}
+				if( !$resKey ){
+					return array('result' => false);
+					break;
+				}
+
+				$path_xlsx = $_resMgr->getResourceOriginalRealpath( $resKey );
 				$params = array(
 					'header_row' => $options['data']['header_row'] ,
 					'header_col' => $options['data']['header_col'] ,

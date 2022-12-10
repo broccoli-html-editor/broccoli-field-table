@@ -37,6 +37,9 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
 									data.header_col = $modalImportXlsx.find('input[name="'+mod.name+'__import-xlsx-modal__header_col"]').val();
 									data.cell_renderer = $modalImportXlsx.find('input[name="'+mod.name+'__import-xlsx-modal__cell_renderer"]:checked').val();
 									data.renderer = $modalImportXlsx.find('input[name="'+mod.name+'__import-xlsx-modal__renderer"]:checked').val();
+									data.base64 = $excel.attr('data-base64');
+									data.extension = $excel.attr('data-extension');
+									data.mime_type = $excel.attr('data-mime-type');
 									it1.next();
 								},
 								function(it1){
@@ -96,7 +99,7 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
 								"data-base64": (function(dataUri){
 									dataUri = dataUri.replace(new RegExp('^data\\:[^\\;]*\\;base64\\,'), '');
 									return dataUri;
-								})(dataUri)
+								})(dataUri),
 							})
 						;
 						broccoli.px2style.closeLoading();
@@ -115,51 +118,12 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
 	 * アップロードファイルを解析して生成されたHTMLを取得する
 	 */
 	this.broccoliFieldTable_parseUploadedFileAndGetHtml = function( data, $dom, callback ){
-		var _this = this;
 		var rtn = '';
-		var resInfo,
-			realpathSelected;
 
 		it79.fnc({},
 			[
 				function(it2){
-					_resMgr.addResource(function(newResKey){
-						data.resKey = newResKey;
-						it2.next();
-					});
-				} ,
-				function(it2){
-					_resMgr.getResource(data.resKey, function(res){
-						resInfo = res;
-						it2.next();
-					});
-					return;
-				} ,
-				function(it2){
-					realpathSelected = $dom.find('input[type=file]').val();
-
-					if( realpathSelected ){
-						// NOTE: Excelファイルが選択された場合、
-						// 選択されたファイルの情報を resourceMgr に登録する。
-						resInfo.ext = $dom.find('div[data-excel-info]').attr('data-extension');
-						resInfo.type = $dom.find('div[data-excel-info]').attr('data-mime-type');
-						resInfo.size = $dom.find('div[data-excel-info]').attr('data-size');
-						resInfo.base64 = $dom.find('div[data-excel-info]').attr('data-base64');
-
-						resInfo.isPrivateMaterial = true;
-							// NOTE: リソースファイルの設置は resourceMgr が行っている。
-							// isPrivateMaterial が true の場合、公開領域への設置は行われない。
-
-						_resMgr.updateResource( data.resKey, resInfo, function(){
-							it2.next();
-						} );
-						return;
-					}
-					callback( false );
-					return;
-				} ,
-				function(it2){
-					_this.callGpi(
+					main.callGpi(
 						{
 							'api': 'excel2html',
 							'data': data,

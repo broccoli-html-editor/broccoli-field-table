@@ -9,9 +9,9 @@
     "hot": "mix watch --hot",
     "prod": "npm run production",
     "production": "mix --production",
-    "start": "node ./tests/app/server/server.js;",
-    "up": "node ./tests/app/server/server.js;",
-    "preview": "open http://127.0.0.1:3000/;",
+    "start": "node ./tests/biflora/server.js;",
+    "up": "node ./tests/biflora/server.js;",
+    "preview": "open http://127.0.0.1:8088/;",
     "test": "mocha --ui tdd ./tests/",
     "testcafe": "./node_modules/.bin/testcafe firefox:headless ./tests/testcafe/mainTest.js --skip-js-errors --app \"php -S 127.0.0.1:8088 -t ./\""
   },
