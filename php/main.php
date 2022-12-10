@@ -29,7 +29,7 @@ class main extends \broccoliHtmlEditor\fieldBase{
 
 		if( $mode == 'canvas' ){
 			if( !strlen($rtn) ){
-				$rtn .= '<tr><td style="text-align:center;">ダブルクリックして編集してください。</td></tr>';
+				$rtn .= '<tr><td>'.$this->broccoli->lb()->get('ui_message.double_click_to_edit').'</td></tr>';
 			}
 		}
 		return $rtn;

@@ -55,6 +55,11 @@ window.BroccoliFieldTable = function(broccoli){
 			delete(data.output);
 		}
 
+		if( !data.src ){
+			// 内容が空白の場合、空のテーブルを生成して初期化する。
+			data.src = "<thead><tr><th></th><th></th><th></th></tr></thead><tbody><tr><th></th><td></td><td></td></tr><tr><th></th><td></td><td></td></tr><tr><th></th><td></td><td></td></tr></tbody>";
+		}
+
 		var Editor = require('./editor/editor.js');
 		var editor = new Editor(broccoli, this, mod, data, elm);
 		editor.init( callback );

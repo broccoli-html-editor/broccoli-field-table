@@ -18,14 +18,24 @@ mix
 				{
 					test:/\.twig$/,
 					use:['twig-loader']
-				}
+				},
+				{
+					test: /\.csv$/i,
+					loader: 'csv-loader',
+					options: {
+						dynamicTyping: true,
+						header: false,
+						skipEmptyLines: false,
+					},
+				},
 			]
 		},
 		resolve: {
 			fallback: {
 				"fs": false,
 				"path": false,
-				"crypto": false
+				"crypto": false,
+				"stream": false,
 			}
 		}
 	})

@@ -27,7 +27,8 @@
   "homepage": "https://github.com/broccoli-html-editor/broccoli-field-table#readme",
   "dependencies": {
     "desktop-utils": "^0.1.2",
-    "iterate79": "~1.1.1"
+    "iterate79": "~1.1.1",
+    "langbank": "github:tomk79/node-langbank.git#develop"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
@@ -40,6 +41,7 @@
     "body-parser": "^1.17.1",
     "bootstrap": "^4.3.1",
     "cheerio": "*",
+    "csv-loader": "^3.0.3",
     "dateformat": "^5.0.3",
     "diff2html": "^3.4.13",
     "express": "^4.15.2",

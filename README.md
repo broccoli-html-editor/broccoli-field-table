@@ -20,6 +20,7 @@ $ npm install broccoli-field-table --save
 - データ構造を変更: `data.output` を `data.src` に改名した。 (ただし後方互換性維持のため、`data.output` にも配慮する)
 - HTML編集モードでビジュアル編集がサポートされるようになった。
 - 内部コードの構成を変更。
+- 一部の英語化に関する修正。
 
 ### broccoli-field-table v0.3.0 (2022年1月3日)
 

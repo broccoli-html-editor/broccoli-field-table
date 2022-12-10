@@ -22,11 +22,11 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
         var $excel = $modalImportXlsx.find('div[data-excel-info]');
 
 		var importXlsxModal = px2style.modal({
-			"title": "Excelファイルから取り込む",
+			"title": editor.lb.get('ui_label.import_from_excel'),
 			"body": $modalImportXlsx,
 			"buttons": [
 				$('<button type="button" class="px2-btn px2-btn--primary">')
-					.text("Excelファイルから取り込む")
+					.text( editor.lb.get('ui_label.import_from_excel') )
 					.on('click', function(){
 						var data = {};
 						var htmlSrc = '';
@@ -65,7 +65,7 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
 			],
 			"buttonsSecondary": [
 				$('<button type="button" class="px2-btn">')
-					.text("キャンセル")
+					.text( editor.lb.get('ui_label.cancel') )
 					.on('click', function(){
 						importXlsxModal.close();
 					}),

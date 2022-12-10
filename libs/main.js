@@ -30,7 +30,7 @@
 
 			if( mode == 'canvas' ){
 				if( !rtn.length ){
-					rtn += '<tr><td style="text-align:center;">ダブルクリックして編集してください。</td></tr>';
+					rtn += '<tr><td>'+broccoli.lb().get('ui_message.double_click_to_edit')+'</td></tr>';
 				}
 			}
 			// setTimeout(function(){
