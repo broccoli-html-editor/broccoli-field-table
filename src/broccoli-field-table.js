@@ -222,7 +222,7 @@ window.BroccoliFieldTable = function(broccoli){
 					_this.callGpi(
 						{
 							'api': 'excel2html',
-							'data': data
+							'data': data,
 						} ,
 						function(result){
 							rtn = result;

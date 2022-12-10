@@ -66,8 +66,7 @@ class main extends \broccoliHtmlEditor\fieldBase{
 
 			case 'excel2html':
 				$path_xlsx = $_resMgr->getResourceOriginalRealpath( $options['data']['resKey'] );
-				$excel2html = new excel2html();
-				$options = array(
+				$params = array(
 					'header_row' => $options['data']['header_row'] ,
 					'header_col' => $options['data']['header_col'] ,
 					'renderer' => (isset($options['data']['renderer']) ? $options['data']['renderer'] : "simplify") ,
@@ -76,7 +75,8 @@ class main extends \broccoliHtmlEditor\fieldBase{
 					'strip_table_tag' => true
 				);
 
-				$html = $excel2html->excel2html($path_xlsx, $options);
+				$excel2html = new excel2html();
+				$html = $excel2html->excel2html($path_xlsx, $params);
 
 				return $html;
 				break;
