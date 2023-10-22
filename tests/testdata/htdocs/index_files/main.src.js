@@ -1,5 +1,3 @@
-// console.log(broccoli);
-
 /**
  * main.js
  */
@@ -14,9 +12,6 @@ window.main = new (function(){
 				io,
 				{
 					'showSocketTest': function( data, callback, main, socket ){
-						// console.log(data);
-						// alert(data.message);
-						// console.log(callback);
 						callback(data);
 						return;
 					}
@@ -44,6 +39,8 @@ window.main = new (function(){
 				'elmModulePalette': $('.palette').get(0),
 				'contents_area_selector': '[data-contents]',
 				'contents_bowl_name_by': 'data-contents',
+				'lang': 'ja',
+				'appearance': 'light',
 				'customFields': {
 					'table': window.BroccoliFieldTable
 				},
@@ -77,13 +74,11 @@ window.main = new (function(){
 								'options': JSON.stringify(options)
 							},
 							"success": function(data){
-								// console.log(data);
 								try{
 									res = JSON.parse(data);
 								}catch(e){
 									console.error(e, data);
 								}
-								// console.log(res);
 							},
 							"error": function(error){
 								console.error(error);
@@ -115,7 +110,6 @@ window.main = new (function(){
 			{'message': 'socketTest from frontend.'} ,
 			function(data){
 				console.log(data);
-				// alert('callback function is called!');
 			}
 		);
 		return this;

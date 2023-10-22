@@ -11,5 +11,8 @@
     "/tests/testdata/htdocs/libs/broccoli.css": "/tests/testdata/htdocs/libs/broccoli.css",
     "/tests/testdata/htdocs/libs/broccoli.js": "/tests/testdata/htdocs/libs/broccoli.js",
     "/tests/testdata/htdocs/libs/broccoli.js.LICENSE.txt": "/tests/testdata/htdocs/libs/broccoli.js.LICENSE.txt",
-    "/tests/testdata/htdocs/libs/broccoli.js.map": "/tests/testdata/htdocs/libs/broccoli.js.map"
+    "/tests/testdata/htdocs/libs/broccoli.js.map": "/tests/testdata/htdocs/libs/broccoli.js.map",
+    "/tests/testdata/htdocs/libs/themes/auto.css": "/tests/testdata/htdocs/libs/themes/auto.css",
+    "/tests/testdata/htdocs/libs/themes/darkmode.css": "/tests/testdata/htdocs/libs/themes/darkmode.css",
+    "/tests/testdata/htdocs/libs/themes/lightmode.css": "/tests/testdata/htdocs/libs/themes/lightmode.css"
 }

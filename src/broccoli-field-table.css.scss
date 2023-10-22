@@ -12,3 +12,12 @@
 		}
 	}
 }
+
+.broccoli--appearance-dark {
+	@import "../node_modules/@tomk79/table-tag-editor/src/themes/darkmode";
+}
+@media (prefers-color-scheme: dark) { 
+.broccoli--appearance-auto {
+	@import "../node_modules/@tomk79/table-tag-editor/src/themes/darkmode";
+}
+}

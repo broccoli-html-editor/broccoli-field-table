@@ -14,6 +14,10 @@ $ npm install broccoli-field-table --save
 
 ## 更新履歴 - Change log
 
+### broccoli-field-table v0.4.1 (リリース日未定)
+
+- ダークモードに対応した。
+
 ### broccoli-field-table v0.4.0 (2022年12月29日)
 
 - デフォルトがHTML編集モードに変更され、Excel編集モードへ移行できるようになった。
