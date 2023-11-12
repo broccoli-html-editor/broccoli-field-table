@@ -2,10 +2,10 @@
 /**
  * test for pickles2/lib-px2-contents-editor
  */
-class mainTest extends PHPUnit_Framework_TestCase{
+class mainTest extends PHPUnit\Framework\TestCase{
 	private $fs;
 
-	public function setup(){
+	public function setup() : void{
 		mb_internal_encoding('UTF-8');
 		require_once(__DIR__.'/php_test_helper/helper.php');
 	}
@@ -27,7 +27,6 @@ class mainTest extends PHPUnit_Framework_TestCase{
 
 		$data = file_get_contents(__DIR__.'/testdata/htdocs/test1/test1_files/guieditor.ignore/data.json');
 		$data = json_decode($data);
-		// var_dump($data);
 		$html = $broccoli->buildBowl(
 			$data->bowl->main ,
 			array(
@@ -35,7 +34,6 @@ class mainTest extends PHPUnit_Framework_TestCase{
 			)
 		);
 		file_put_contents(__DIR__.'/testdata/htdocs/test1/test1.html', $html);
-		// var_dump( $html );
 
 		$this->assertTrue( is_string($html) );
 
@@ -49,7 +47,6 @@ class mainTest extends PHPUnit_Framework_TestCase{
 
 		$data = file_get_contents(__DIR__.'/testdata/htdocs/test1/test1_files/guieditor.ignore/data.json');
 		$data = json_decode($data);
-		// var_dump($data);
 		$html = $broccoli->buildBowl(
 			$data->bowl->main ,
 			array(
