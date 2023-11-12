@@ -14,7 +14,7 @@ $ npm install broccoli-field-table --save
 
 ## 更新履歴 - Change log
 
-### broccoli-field-table v0.4.1 (リリース日未定)
+### broccoli-field-table v0.4.1 (2023年11月13日)
 
 - ダークモードに対応した。
 
