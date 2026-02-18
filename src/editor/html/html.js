@@ -35,7 +35,9 @@ module.exports = function(broccoli, main, editor, mod, data, elm){
 
 		$(elm).html($rtn);
 
-		tableTagEditor = new TableTagEditor( $rtn.find('textarea[name="'+mod.name+'__src"]') );
+		var appearance = (broccoli.config && broccoli.config.appearance) || (broccoli.options && broccoli.options.appearance) || 'auto';
+		var lang = (broccoli.config && broccoli.config.lang) || (broccoli.options && broccoli.options.lang) || 'en';
+		tableTagEditor = new TableTagEditor( $rtn.find('textarea[name="'+mod.name+'__src"]'), { appearance: appearance, lang: lang } );
 
 
 		setTimeout(function(){
