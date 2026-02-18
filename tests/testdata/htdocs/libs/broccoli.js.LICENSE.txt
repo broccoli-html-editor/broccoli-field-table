@@ -33,9 +33,9 @@
 
 /*! For license information please see px2style.js.LICENSE.txt */
 
-/*! NanoPop 2.3.0 MIT | https://github.com/Simonwep/nanopop */
-
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
 /**
  * Twig.js
@@ -43,4 +43,12 @@
  * @copyright 2011-2020 John Roepke and the Twig.js Contributors
  * @license   Available under the BSD 2-Clause License
  * @link      https://github.com/twigjs/twig.js
+ */
+
+/**
+ * Twig.js 0.8.9
+ *
+ * @copyright 2011-2015 John Roepke and the Twig.js Contributors
+ * @license   Available under the BSD 2-Clause License
+ * @link      https://github.com/justjohn/twig.js
  */

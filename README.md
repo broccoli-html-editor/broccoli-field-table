@@ -16,6 +16,9 @@ $ npm install broccoli-field-table --save
 
 ### broccoli-field-table v0.4.2 (リリース日未定)
 
+- 結合セルを含むテーブルで、行や列を削除すると、セルがずれる場合がある問題を修正。
+- セル結合モードを追加。
+
 ### broccoli-field-table v0.4.1 (2023年11月13日)
 
 - ダークモードに対応した。
