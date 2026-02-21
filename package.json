@@ -35,7 +35,7 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@tomk79/table-tag-editor": "^0.1.0",
-    "axios": "^0.25",
+    "axios": "^0.30",
     "babel-loader": "^8.2.4",
     "biflora": "0.0.1-alpha.1",
     "body-parser": "^1.17.1",
