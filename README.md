@@ -14,7 +14,7 @@ $ npm install broccoli-field-table --save
 
 ## 更新履歴 - Change log
 
-### broccoli-field-table v0.4.3 (リリース日未定)
+### broccoli-field-table v0.4.3 (2026年10月22日)
 
 - `tomk79/php-excel2html` v0.2 系に対応した。
 
