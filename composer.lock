@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f8fd97d2b23af775c8c2d24b7d8c91e6",
+    "content-hash": "c60c69aba5fcf4108d0c100bd5e5b698",
     "packages": [
         {
             "name": "composer/pcre",
@@ -595,26 +595,26 @@
         },
         {
             "name": "tomk79/php-excel2html",
-            "version": "0.1.x-dev",
+            "version": "0.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tomk79/php-excel2html.git",
-                "reference": "7c131bcc49796b2f51bc01a79e2b5b2af17d3974"
+                "reference": "cd6f249f61df81f08927bcdf30722527624cc74d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tomk79/php-excel2html/zipball/7c131bcc49796b2f51bc01a79e2b5b2af17d3974",
-                "reference": "7c131bcc49796b2f51bc01a79e2b5b2af17d3974",
+                "url": "https://api.github.com/repos/tomk79/php-excel2html/zipball/cd6f249f61df81f08927bcdf30722527624cc74d",
+                "reference": "cd6f249f61df81f08927bcdf30722527624cc74d",
                 "shasum": ""
             },
             "require": {
                 "michelf/php-markdown": "^1.6.0",
                 "php": ">=7.2",
-                "phpoffice/phpspreadsheet": "^1.13",
+                "phpoffice/phpspreadsheet": "^1.13 || ^2.0 || ^3.0 || ^5.0",
                 "tomk79/filesystem": "1.*"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.0"
+                "phpunit/phpunit": "^9.6 || ^10.5 || ^11.5 || ^12.0"
             },
             "type": "library",
             "autoload": {
@@ -637,9 +637,9 @@
             "description": "Convert Excel(*.xlsx) to HTML table. with PHPExcel.",
             "support": {
                 "issues": "https://github.com/tomk79/php-excel2html/issues",
-                "source": "https://github.com/tomk79/php-excel2html/tree/0.1.2"
+                "source": "https://github.com/tomk79/php-excel2html/tree/0.2.0"
             },
-            "time": "2023-02-04T17:14:22+00:00"
+            "time": "2026-10-22T11:12:20+00:00"
         },
         {
             "name": "tomk79/request",
@@ -3452,5 +3452,5 @@
         "php": ">=5.4.0"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
